@@ -344,7 +344,7 @@
       <p class="subtitle">Digite os dados, escolha a quantidade de usuários e gere a proposta pronta para copiar e enviar.</p>
 
       <div class="field">
-        <label for="cliente">Cliente</label>
+        <label for="cliente">Nome do cliente (aparece no topo da proposta)</label>
         <input id="cliente" class="input" type="text" placeholder="Nome da empresa" />
       </div>
 
@@ -474,7 +474,13 @@
 
       let texto = '';
 
-      texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
+      if (cliente) {
+        texto += '📄 Proposta – ' + cliente.toUpperCase() + '\n';
+        texto += 'METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
+        texto += dados.usuarios > 1 ? 's' : '';
+        texto += ')\n\n';
+      } else {
+        texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário'; (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
       texto += dados.usuarios > 1 ? 's' : '';
       texto += ')\n\n';
 
