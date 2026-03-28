@@ -3,655 +3,341 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerador de Proposta - METRA CLOUD | v1.2</title>
+  <title>Gerador de Proposta - METRA CLOUD | v1.3</title>
   <style>
-    * { box-sizing: border-box; }
-
     :root {
-      --bg: #0f172a;
-      --card: #111827;
-      --card-2: #1f2937;
-      --line: rgba(255,255,255,0.08);
-      --text: #f8fafc;
+      --bg: #020617;
+      --card: #0f172a;
+      --border: rgba(255,255,255,0.1);
+      --accent: linear-gradient(135deg, #38bdf8, #22c55e);
+      --text: #f1f5f9;
       --muted: #94a3b8;
-      --green: #22c55e;
-      --blue: #38bdf8;
-      --gold: #f59e0b;
-      --danger: #ef4444;
-      --shadow: 0 20px 50px rgba(0,0,0,0.35);
-      --radius: 22px;
+      --radius: 16px;
     }
+
+    * { box-sizing: border-box; transition: all 0.2s ease; }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 25%),
-        radial-gradient(circle at top right, rgba(34,197,94,0.15), transparent 20%),
-        linear-gradient(135deg, #020617, #0f172a 45%, #111827);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(34, 197, 94, 0.1) 0px, transparent 50%);
       color: var(--text);
-      min-height: 100vh;
-      padding: 24px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .panel {
-      background: rgba(17,24,39,0.88);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(12px);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .form-panel {
-      padding: 24px;
-      position: sticky;
-      top: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 8px;
-    }
-
-    .brand-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #001018;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 24px;
-      line-height: 1.1;
-    }
-
-    .subtitle {
-      margin: 6px 0 24px;
-      color: var(--muted);
-      font-size: 14px;
+      padding: 20px;
       line-height: 1.5;
     }
 
-    .field {
-      margin-bottom: 16px;
-    }
-
-    .config-box {
-      display: none;
-      margin-top: 14px;
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .config-box.open {
-      display: block;
-    }
-
-    .config-toggle {
-      width: 100%;
-      margin-top: 4px;
-      margin-bottom: 14px;
-      background: rgba(255,255,255,0.07);
-      color: #e5eefc;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .config-title {
-      margin: 0 0 14px;
-      font-size: 13px;
-      font-weight: 800;
-      color: #cbd5e1;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #dbeafe;
-    }
-
-    .input,
-    .select,
-    .textarea {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      border-radius: 14px;
-      padding: 14px 14px;
-      outline: none;
-      font-size: 15px;
-      transition: 0.2s ease;
-    }
-
-    .textarea {
-      min-height: 88px;
-      resize: vertical;
-    }
-
-    .input:focus,
-    .select:focus,
-    .textarea:focus {
-      border-color: rgba(56,189,248,0.7);
-      box-shadow: 0 0 0 4px rgba(56,189,248,0.12);
-    }
-
-    .inline {
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: 400px 1fr;
+      gap: 24px;
     }
 
-    .switch-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 14px;
-    }
-
-    .switch-row span {
-      font-size: 14px;
-      color: #e5eefc;
-      font-weight: 600;
-    }
-
-    .switch-row small {
-      display: block;
-      color: var(--muted);
-      font-weight: 400;
-      margin-top: 3px;
-    }
-
-    .switch {
-      position: relative;
-      width: 54px;
-      height: 30px;
-      flex-shrink: 0;
-    }
-
-    .switch input { display: none; }
-
-    .slider {
-      position: absolute;
-      inset: 0;
-      background: rgba(255,255,255,0.15);
-      border-radius: 999px;
-      transition: .25s ease;
-      cursor: pointer;
-    }
-
-    .slider::before {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      left: 4px;
-      top: 4px;
-      border-radius: 50%;
-      background: white;
-      transition: .25s ease;
-    }
-
-    .switch input:checked + .slider {
-      background: linear-gradient(135deg, var(--blue), var(--green));
-    }
-
-    .switch input:checked + .slider::before {
-      transform: translateX(24px);
-    }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    button {
-      border: none;
-      border-radius: 16px;
-      padding: 14px 16px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform .15s ease, opacity .15s ease;
-    }
-
-    button:hover { transform: translateY(-1px); }
-    button:active { transform: translateY(0); }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--blue), var(--green));
-      color: #03131d;
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.08);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .preview-panel {
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       padding: 24px;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
     }
 
-    .topbar {
+    /* FORMULÁRIO */
+    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .logo-icon { 
+      background: var(--accent); 
+      width: 40px; height: 40px; 
+      border-radius: 10px; 
+      display: flex; align-items: center; justify-content: center;
+      color: #000; font-weight: 900;
+    }
+
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    input, textarea, select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      color: white;
+      font-size: 14px;
+    }
+
+    input:focus { border-color: #38bdf8; outline: none; background: rgba(255,255,255,0.08); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* SWITCH CUSTOM */
+    .switch-group {
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      border-radius: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
+      margin-bottom: 10px;
     }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(34,197,94,0.12);
-      border: 1px solid rgba(34,197,94,0.24);
-      color: #bbf7d0;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 12px;
+    .switch { position: relative; width: 44px; height: 24px; cursor: pointer; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; inset: 0; background: #334155; border-radius: 20px; }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; }
+    input:checked + .slider { background: #22c55e; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* BOTÕES */
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
       font-weight: 700;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+    .btn-primary { background: var(--accent); color: #020617; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
+    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); margin-top: 10px; }
+    
+    /* PREVIEW */
+    .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .badge { background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; }
+    
+    .cards-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .mini-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
+    .mini-card span { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; }
+    .mini-card b { font-size: 16px; color: #fff; }
 
-    .price-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-
-    .price-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 16px;
-    }
-
-    .price-card .k {
-      color: var(--muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-    }
-
-    .price-card .v {
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.1;
-    }
-
-    .proposal {
-      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 24px;
-      padding: 28px;
+    #proposta-preview {
+      background: #fff;
+      color: #1e293b;
+      padding: 40px;
+      border-radius: 8px;
       white-space: pre-wrap;
-      font-size: 18px;
-      line-height: 1.7;
-      color: #f8fafc;
-      min-height: 560px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 15px;
+      min-height: 600px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+      line-height: 1.6;
     }
 
-    .proposal strong { color: white; }
+    .config-box { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; }
+    .config-box.open { max-height: 500px; margin-bottom: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
 
-    .footer-note {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media (max-width: 1024px) {
-      .container {
-        grid-template-columns: 1fr;
-      }
-
-      .form-panel {
-        position: static;
-      }
-
-      .price-cards {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      body { padding: 14px; }
-      .inline,
-      .buttons,
-      .price-cards {
-        grid-template-columns: 1fr;
-      }
-      .proposal {
-        padding: 20px;
-        font-size: 16px;
-      }
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .cards-row { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <section class="panel form-panel">
-      <div class="brand">
-        <div class="brand-badge">M</div>
-        <div>
-          <h1>Gerador de Proposta</h1>
-          <div style="color:#cbd5e1;font-size:13px;margin-top:3px;">METRA CLOUD • v1.2</div>
-        </div>
-      </div>
-      <p class="subtitle">Digite os dados, ajuste os valores se necessário, escolha a quantidade de usuários e gere a proposta pronta para copiar e enviar.</p>
 
+<div class="container">
+  <aside class="panel">
+    <div class="brand">
+      <div class="logo-icon">M</div>
+      <div>
+        <h2 style="margin:0; font-size: 18px;">Metra Cloud</h2>
+        <span style="font-size: 12px; color: var(--muted);">Gerador de Propostas v1.3</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Cliente</label>
+      <input type="text" id="cliente" placeholder="Ex: Tecno Logística LTDA">
+    </div>
+
+    <div class="grid-2">
       <div class="field">
-        <label for="cliente">Nome do cliente (aparece no topo da proposta)</label>
-        <input id="cliente" class="input" type="text" placeholder="Nome da empresa" />
+        <label>Usuários</label>
+        <input type="number" id="usuarios" value="1" min="1">
       </div>
-
-      <div class="inline">
-        <div class="field">
-          <label for="usuarios">Quantidade de usuários</label>
-          <input id="usuarios" class="input" type="number" min="1" value="1" />
-        </div>
-        <div class="field">
-          <label for="validade">Validade da condição</label>
-          <input id="validade" class="input" type="text" value="10/04" />
-        </div>
-      </div>
-
-      <button type="button" id="btnConfig" class="config-toggle" onclick="toggleConfig()">Conf</button>
-
-      <div id="configBox" class="config-box">
-        <div class="config-title">Configurações de valores</div>
-
-        <div class="field">
-          <label for="licenca">Licença + capacitação (valor fixo)</label>
-          <input id="licenca" class="input" type="number" min="0" step="0.01" value="480" />
-        </div>
-
-        <div class="inline">
-          <div class="field">
-            <label for="opcao1Base">Opção 01 – valor inicial</label>
-            <input id="opcao1Base" class="input" type="number" min="0" step="0.01" value="250" />
-          </div>
-          <div class="field">
-            <label for="opcao1Adicional">Opção 01 – usuário adicional</label>
-            <input id="opcao1Adicional" class="input" type="number" min="0" step="0.01" value="75" />
-          </div>
-        </div>
-
-        <div class="inline">
-          <div class="field">
-            <label for="opcao2Base">Opção 02 – valor inicial</label>
-            <input id="opcao2Base" class="input" type="number" min="0" step="0.01" value="299.90" />
-          </div>
-          <div class="field">
-            <label for="opcao2Adicional">Opção 02 – usuário adicional</label>
-            <input id="opcao2Adicional" class="input" type="number" min="0" step="0.01" value="100" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="canalValor">Canal de Denúncia / taxa extra</label>
-          <input id="canalValor" class="input" type="number" min="0" step="0.01" value="49.90" />
-        </div>
-      </div>
-
-      <div class="switch-row">
-        <div>
-          <span>Exibir Canal de Denúncia</span>
-          <small>R$ 49,90 / mês por empresa</small>
-        </div>
-        <label class="switch">
-          <input id="mostrarCanal" type="checkbox" checked />
-          <span class="slider"></span>
-        </label>
-      </div>
-
-      <div class="switch-row">
-        <div>
-          <span>Exibir bloco de IA</span>
-          <small>Mostra a novidade do CNAE</small>
-        </div>
-        <label class="switch">
-          <input id="mostrarIA" type="checkbox" checked />
-          <span class="slider"></span>
-        </label>
-      </div>
-
       <div class="field">
-        <label for="obs">Observação extra</label>
-        <textarea id="obs" class="textarea" placeholder="Ex.: proposta especial para fechamento imediato."></textarea>
+        <label>Validade</label>
+        <input type="text" id="validade" value="10/04">
       </div>
+    </div>
 
-      <div class="buttons">
-        <button class="btn-primary" onclick="copiarProposta()">Copiar proposta</button>
-        <button class="btn-secondary" onclick="limparCampos()">Limpar</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('configBox').classList.toggle('open')">
+      ⚙️ Ajustar Valores Base
+    </button>
+
+    <div id="configBox" class="config-box">
+      <div class="field">
+        <label>Taxa de Implantação (R$)</label>
+        <input type="number" id="licenca" value="480" step="0.01">
       </div>
-    </section>
-
-    <section class="panel preview-panel">
-      <div class="topbar">
-        <div class="tag">Proposta dinâmica • v1.2</div>
-        <div style="color:#94a3b8;font-size:13px;">Atualização automática conforme nº de usuários</div>
-      </div>
-
-      <div class="price-cards">
-        <div class="price-card">
-          <div class="k">Licença + capacitação</div>
-          <div class="v" id="cardLicenca">R$ 480,00</div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Op1 Base</label>
+          <input type="number" id="op1Base" value="250">
         </div>
-        <div class="price-card">
-          <div class="k">Opção 01</div>
-          <div class="v" id="cardOpcao1">R$ 250,00</div>
-        </div>
-        <div class="price-card">
-          <div class="k">Opção 02</div>
-          <div class="v" id="cardOpcao2">R$ 299,90</div>
-        </div>
-        <div class="price-card">
-          <div class="k">Canal de Denúncia</div>
-          <div class="v" id="cardCanal">R$ 49,90</div>
+        <div class="field">
+          <label>Op1 Adic.</label>
+          <input type="number" id="op1Adic" value="75">
         </div>
       </div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Op2 Base</label>
+          <input type="number" id="op2Base" value="299.90">
+        </div>
+        <div class="field">
+          <label>Op2 Adic.</label>
+          <input type="number" id="op2Adic" value="100">
+        </div>
+      </div>
+    </div>
 
-      <div id="proposta" class="proposal"></div>
-      <div class="footer-note">Versão v1.2: configurações recolhidas em um botão “Conf”, deixando a tela mais limpa e rápida para uso comercial.</div>
-    </section>
-  </div>
+    <div class="switch-group">
+      <div>
+        <div style="font-size: 14px;">Canal de Denúncia</div>
+        <div style="font-size: 11px; color: var(--muted);">+ R$ 49,90/mês</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="checkCanal" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
 
-  <script>
-    const el = {
-      cliente: document.getElementById('cliente'),
-      usuarios: document.getElementById('usuarios'),
-      validade: document.getElementById('validade'),
-      licenca: document.getElementById('licenca'),
-      opcao1Base: document.getElementById('opcao1Base'),
-      opcao1Adicional: document.getElementById('opcao1Adicional'),
-      opcao2Base: document.getElementById('opcao2Base'),
-      opcao2Adicional: document.getElementById('opcao2Adicional'),
-      canalValor: document.getElementById('canalValor'),
-      mostrarCanal: document.getElementById('mostrarCanal'),
-      mostrarIA: document.getElementById('mostrarIA'),
-      obs: document.getElementById('obs'),
-      proposta: document.getElementById('proposta'),
-      cardLicenca: document.getElementById('cardLicenca'),
-      cardOpcao1: document.getElementById('cardOpcao1'),
-      cardOpcao2: document.getElementById('cardOpcao2'),
-      cardCanal: document.getElementById('cardCanal')
-    };
+    <div class="switch-group">
+      <div>
+        <div style="font-size: 14px;">Módulo IA (CNAE)</div>
+        <div style="font-size: 11px; color: var(--muted);">Exibir spoiler</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="checkIA" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
 
-    function moeda(valor) {
-      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
+    <div class="field">
+      <label>Observações</label>
+      <textarea id="obs" rows="3" placeholder="Algo especial?"></textarea>
+    </div>
 
-    function numeroUsuariosFormatado(qtd) {
-      return String(qtd).padStart(2, '0');
-    }
+    <button class="btn btn-primary" id="btnCopiar" onclick="copiarProposta()">
+      <span>📋 Copiar Proposta</span>
+    </button>
+  </aside>
 
-    function calcularValores() {
-      const usuarios = Math.max(1, parseInt(el.usuarios.value || '1', 10));
-      const adicionais = Math.max(0, usuarios - 1);
-      const licenca = Math.max(0, parseFloat(el.licenca.value || '0'));
-      const opcao1Base = Math.max(0, parseFloat(el.opcao1Base.value || '0'));
-      const opcao1Adicional = Math.max(0, parseFloat(el.opcao1Adicional.value || '0'));
-      const opcao2Base = Math.max(0, parseFloat(el.opcao2Base.value || '0'));
-      const opcao2Adicional = Math.max(0, parseFloat(el.opcao2Adicional.value || '0'));
-      const canal = Math.max(0, parseFloat(el.canalValor.value || '0'));
+  <main class="panel" style="background: rgba(15, 23, 42, 0.6);">
+    <div class="preview-header">
+      <span class="badge">LIVE PREVIEW</span>
+      <div id="resumo-topo" style="font-size: 13px; color: var(--muted);"></div>
+    </div>
 
-      return {
-        usuarios,
-        licenca,
-        parcelaLicenca: licenca / 10,
-        opcao1: opcao1Base + (adicionais * opcao1Adicional),
-        opcao2: opcao2Base + (adicionais * opcao2Adicional),
-        canal,
-        opcao1Base,
-        opcao1Adicional,
-        opcao2Base,
-        opcao2Adicional
-      };
-    }
+    <div class="cards-row">
+      <div class="mini-card"><span>Implantação</span><b id="v-impl">R$ 0</b></div>
+      <div class="mini-card"><span>Opção 01</span><b id="v-op1">R$ 0</b></div>
+      <div class="mini-card"><span>Opção 02</span><b id="v-op2">R$ 0</b></div>
+      <div class="mini-card"><span>Recorrente</span><b id="v-total">R$ 0</b></div>
+    </div>
 
-    function gerarProposta() {
-      const dados = calcularValores();
-      const cliente = el.cliente.value.trim();
-      const validade = el.validade.value.trim() || '27/03';
-      const incluirCanal = el.mostrarCanal.checked;
-      const incluirIA = el.mostrarIA.checked;
-      const obs = el.obs.value.trim();
+    <div id="proposta-preview"></div>
+  </main>
+</div>
 
-      el.cardLicenca.textContent = moeda(dados.licenca);
-      el.cardOpcao1.textContent = moeda(dados.opcao1);
-      el.cardOpcao2.textContent = moeda(dados.opcao2);
-      el.cardCanal.textContent = moeda(dados.canal);
+<script>
+  const campos = ['cliente', 'usuarios', 'validade', 'licenca', 'op1Base', 'op1Adic', 'op2Base', 'op2Adic', 'checkCanal', 'checkIA', 'obs'];
+  
+  function fmt(v) {
+    return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
 
-      let texto = '';
-
-      if (cliente) {
-        texto += '📄 Proposta – ' + cliente.toUpperCase() + '
-';
-        texto += 'METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário' + (dados.usuarios > 1 ? 's' : '') + ')
-
-';
-      } else {
-        texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário' + (dados.usuarios > 1 ? 's' : '') + ')
-
-';
-      }
-
-      texto += '💰 Licença + capacitação\n';
-      texto += 'De R$ 1.500,00 ➝ ' + moeda(dados.licenca) + '\n';
-      texto += 'ou 10x de ' + moeda(dados.parcelaLicenca) + '\n\n';
-
-      texto += '🔹 Opção 01 – Sistema (sem Faturamento e Financeiro)\n';
-      texto += moeda(dados.opcao1) + ' / mês\n\n';
-
-      texto += '⭐ Opção 02 – Sistema completo (com Faturamento e Financeiro)\n';
-      texto += moeda(dados.opcao2) + ' / mês\n\n';
-
-      if (incluirCanal) {
-        texto += '➕ Canal de Denúncia\n';
-        texto += moeda(dados.canal) + ' / mês por empresa\n';
-        texto += '💡 Pode ser ofertado para sua base como serviço adicional, gerando receita recorrente\n\n';
-      }
-
-      if (incluirIA) {
-        texto += '🤖 Em breve: IA que, ao cadastrar a empresa, sugere automaticamente setores e funções com base no CNAE\n\n';
-      }
-
-      texto += '🔓 Liberação em 1 dia útil\n';
-      texto += '🗓 Condição válida até ' + validade;
-
-      if (obs) {
-        texto += '
-
-📌 Observação: ' + obs;
-      }
-
-      texto += '
-
-— Gerado no app METRA CLOUD v1.2';
-
-      el.proposta.textContent = texto;
-    }
-
-    function toggleConfig() {
-      const box = document.getElementById('configBox');
-      const btn = document.getElementById('btnConfig');
-      box.classList.toggle('open');
-      btn.textContent = box.classList.contains('open') ? 'Fechar conf' : 'Conf';
-    }
-
-    function copiarProposta() {
-      gerarProposta();
-      const texto = el.proposta.textContent;
-
-      navigator.clipboard.writeText(texto)
-        .then(() => {
-          alert('Proposta copiada com sucesso.');
-        })
-        .catch(() => {
-          alert('Não foi possível copiar automaticamente. Copie manualmente o texto da proposta.');
-        });
-    }
-
-    function limparCampos() {
-      el.cliente.value = '';
-      el.usuarios.value = 1;
-      el.validade.value = '10/04';
-      el.licenca.value = 480;
-      el.opcao1Base.value = 250;
-      el.opcao1Adicional.value = 75;
-      el.opcao2Base.value = 299.90;
-      el.opcao2Adicional.value = 100;
-      el.canalValor.value = 49.90;
-      el.mostrarCanal.checked = true;
-      el.mostrarIA.checked = true;
-      el.obs.value = '';
-      gerarProposta();
-    }
-
-    ['input', 'change'].forEach(evento => {
-      Object.values(el).forEach(item => {
-        if (item && (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA')) {
-          item.addEventListener(evento, gerarProposta);
-        }
-      });
+  function gerar() {
+    const d = {};
+    campos.forEach(c => {
+      const el = document.getElementById(c);
+      d[c] = el.type === 'checkbox' ? el.checked : el.value;
     });
 
-    gerarProposta();
-  </script>
+    const qtd = parseInt(d.usuarios) || 1;
+    const adic = qtd - 1;
+
+    const implantação = parseFloat(d.licenca);
+    const vOp1 = parseFloat(d.op1Base) + (adic * parseFloat(d.op1Adic));
+    const vOp2 = parseFloat(d.op2Base) + (adic * parseFloat(d.op2Adic));
+    const vCanal = 49.90;
+
+    // Atualiza cards
+    document.getElementById('v-impl').textContent = fmt(implantação);
+    document.getElementById('v-op1').textContent = fmt(vOp1);
+    document.getElementById('v-op2').textContent = fmt(vOp2);
+    document.getElementById('v-total').textContent = fmt(d.checkCanal ? vOp2 + vCanal : vOp2);
+
+    // Monta Texto
+    let t = `📄 PROPOSTA COMERCIAL - METRA CLOUD\n`;
+    t += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    
+    if(d.cliente) t += `EMPRESA: ${d.cliente.toUpperCase()}\n`;
+    t += `USUÁRIOS: ${qtd.toString().padStart(2, '0')}\n\n`;
+
+    t += `💰 INVESTIMENTO INICIAL\n`;
+    t += `Licença + Capacitação: de R$ 1.500,00 por apenas ${fmt(implantação)}\n`;
+    t += `👉 ou 10x de ${fmt(implantação/10)} no cartão\n\n`;
+
+    t += `🔹 OPÇÃO 01 - SISTEMA ESSENCIAL\n`;
+    t += `(Sem Faturamento e Financeiro)\n`;
+    t += `Valor mensal: ${fmt(vOp1)}\n\n`;
+
+    t += `⭐ OPÇÃO 02 - SISTEMA COMPLETO\n`;
+    t += `(Com Faturamento e Financeiro)\n`;
+    t += `Valor mensal: ${fmt(vOp2)}\n\n`;
+
+    if(d.checkCanal) {
+      t += `➕ ADICIONAL: CANAL DE DENÚNCIA\n`;
+      t += `Valor: ${fmt(vCanal)} / mês por empresa\n`;
+      t += `(Gere receita recorrente oferecendo este serviço)\n\n`;
+    }
+
+    if(d.checkIA) {
+      t += `🤖 NOVIDADE IA\n`;
+      t += `Em breve: Sugestão automática de setores/funções via CNAE.\n\n`;
+    }
+
+    t += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+    t += `✅ Liberação em 1 dia útil\n`;
+    t += `⏳ Condição válida até: ${d.validade}\n`;
+
+    if(d.obs) t += `\n📌 NOTA: ${d.obs}\n`;
+
+    t += `\nGerado via Metra Cloud Business v1.3`;
+
+    document.getElementById('proposta-preview').textContent = t;
+  }
+
+  function copiarProposta() {
+    const texto = document.getElementById('proposta-preview').textContent;
+    const btn = document.getElementById('btnCopiar');
+    
+    navigator.clipboard.writeText(texto).then(() => {
+      const original = btn.innerHTML;
+      btn.style.background = '#22c55e';
+      btn.innerHTML = '✅ Copiado!';
+      setTimeout(() => {
+        btn.style.background = '';
+        btn.innerHTML = original;
+      }, 2000);
+    });
+  }
+
+  // Event Listeners
+  campos.forEach(c => {
+    document.getElementById(c).addEventListener('input', gerar);
+  });
+
+  // Inicializa
+  gerar();
+</script>
+
 </body>
 </html>
