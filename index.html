@@ -3,90 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Metra Cloud - Gerador Comercial</title>
+  <title>Metra Cloud - Gerador Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #1e40af;
-      --bg: #f8fafc;
-      --border: #e2e8f0;
-      --text: #1e293b;
-    }
-
+    :root { --primary: #1e40af; --bg: #f8fafc; --border: #e2e8f0; --text: #1e293b; }
     * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: all 0.2s ease; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      margin: 0; padding: 20px;
-      display: flex; justify-content: center;
-    }
-
-    .container {
-      width: 100%; max-width: 950px;
-      display: grid; grid-template-columns: 360px 1fr; gap: 24px;
-    }
-
-    .card {
-      background: #fff; border-radius: 16px; padding: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border);
-    }
-
+    body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 950px; display: grid; grid-template-columns: 360px 1fr; gap: 24px; }
+    .card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border); }
     .logo-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-    .logo-sq { 
-      background: var(--primary); width: 40px; height: 40px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-weight: 800; font-size: 20px;
-    }
-
+    .logo-sq { background: var(--primary); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; }
     h2 { font-size: 18px; margin: 0; color: var(--primary); }
-
     label { display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
-    
-    input {
-      width: 100%; padding: 12px; border: 1px solid var(--border);
-      border-radius: 8px; font-size: 14px; outline: none; background: #fff;
-    }
-
+    input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background: #fff; }
     input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1); }
-
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-
-    .btn-copy {
-      width: 100%; padding: 16px; background: var(--primary); color: white;
-      border: none; border-radius: 12px; font-weight: 700; font-size: 15px;
-      cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(30, 64, 175, 0.2);
-    }
-
-    .btn-copy:active { transform: scale(0.98); }
-
-    /* WhatsApp Style */
-    .preview-area {
-      background: #e5ddd5; border-radius: 16px; padding: 30px;
-      border: 1px solid var(--border); display: flex; flex-direction: column;
-    }
-
-    .wa-bubble {
-      background: white; padding: 20px; border-radius: 0 15px 15px 15px;
-      font-size: 15px; line-height: 1.5; color: #111b21;
-      white-space: pre-wrap; box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-      position: relative; align-self: flex-start;
-    }
-
-    .wa-bubble::before {
-      content: ""; position: absolute; left: -10px; top: 0;
-      border-style: solid; border-width: 0 10px 10px 0;
-      border-color: transparent white transparent transparent;
-    }
-
-    .config-sec { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
-    .config-toggle { background: none; border: none; color: #94a3b8; font-size: 11px; cursor: pointer; width: 100%; text-align: center; margin-top: 10px; text-decoration: underline; }
-
-    .switch-row { 
-      display: flex; align-items: center; gap: 10px; margin-bottom: 12px; 
-      padding: 10px; background: #f8fafc; border-radius: 8px;
-    }
-
+    .btn-copy { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(30, 64, 175, 0.2); }
+    .preview-area { background: #e5ddd5; border-radius: 16px; padding: 30px; border: 1px solid var(--border); display: flex; flex-direction: column; }
+    .wa-bubble { background: white; padding: 20px; border-radius: 0 15px 15px 15px; font-size: 15px; line-height: 1.5; color: #111b21; white-space: pre-wrap; box-shadow: 0 1px 2px rgba(0,0,0,0.1); position: relative; align-self: flex-start; }
+    .wa-bubble::before { content: ""; position: absolute; left: -10px; top: 0; border-style: solid; border-width: 0 10px 10px 0; border-color: transparent white transparent transparent; }
+    .config-sec { display: block; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
+    .switch-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding: 10px; background: #f8fafc; border-radius: 8px; }
     @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -96,49 +33,33 @@
   <div class="card">
     <div class="logo-header">
       <div class="logo-sq">M</div>
-      <div>
-        <h2>Metra Cloud</h2>
-        <small style="color:#94a3b8">Gerador WhatsApp v1.8</small>
-      </div>
+      <div><h2>Metra Cloud</h2><small style="color:#94a3b8">Gerador WhatsApp v1.9</small></div>
     </div>
 
     <div class="grid">
-      <div>
-        <label>👥 Usuários</label>
-        <input type="number" id="usuarios" value="1">
-      </div>
-      <div>
-        <label>🗓 Validade</label>
-        <input type="text" id="validade" value="10/04">
-      </div>
+      <div><label>👥 Usuários</label><input type="number" id="usuarios" value="1"></div>
+      <div><label>🗓 Validade</label><input type="text" id="validade" value="10/04"></div>
     </div>
 
     <div class="switch-row">
-      <input type="checkbox" id="showCanal" checked style="width:18px; height:18px; cursor:pointer;">
-      <label style="margin:0; text-transform:none; font-size: 13px;">Exibir Canal de Denúncia</label>
+      <input type="checkbox" id="showCanal" checked style="width:18px; height:18px; cursor:pointer;"><label style="margin:0; text-transform:none; font-size: 13px;">Exibir Canal de Denúncia</label>
     </div>
 
     <div class="switch-row">
-      <input type="checkbox" id="showIA" checked style="width:18px; height:18px; cursor:pointer;">
-      <label style="margin:0; text-transform:none; font-size: 13px;">Exibir Bloco IA</label>
+      <input type="checkbox" id="showIA" checked style="width:18px; height:18px; cursor:pointer;"><label style="margin:0; text-transform:none; font-size: 13px;">Exibir Bloco IA</label>
     </div>
 
     <button class="btn-copy" id="btnCopiar" onclick="copiar()">COPIAR PROPOSTA</button>
 
-    <button class="config-toggle" onclick="document.getElementById('conf').style.display = document.getElementById('conf').style.display === 'none' ? 'block' : 'none'">Configurar Preços Base</button>
-
     <div id="conf" class="config-sec">
-      <div class="field" style="margin-bottom:10px;">
-        <label>Implantação</label>
-        <input type="number" id="impl" value="480">
+      <div class="field" style="margin-bottom:10px;"><label>Implantação</label><input type="text" id="impl" value="480,00" oninput="mascaraMoeda(this)"></div>
+      <div class="grid">
+        <div><label>Op1 Base</label><input type="text" id="op1" value="250,00" oninput="mascaraMoeda(this)"></div>
+        <div><label>Op1 Adic</label><input type="text" id="op1_adic" value="75,00" oninput="mascaraMoeda(this)"></div>
       </div>
       <div class="grid">
-        <div><label>Op1 Base</label><input type="number" id="op1" value="250"></div>
-        <div><label>Op1 Adic</label><input type="number" id="op1_adic" value="75"></div>
-      </div>
-      <div class="grid">
-        <div><label>Op2 Base</label><input type="number" id="op2" value="299.90"></div>
-        <div><label>Op2 Adic</label><input type="number" id="op2_adic" value="100"></div>
+        <div><label>Op2 Base</label><input type="text" id="op2" value="299,90" oninput="mascaraMoeda(this)"></div>
+        <div><label>Op2 Adic</label><input type="text" id="op2_adic" value="100,00" oninput="mascaraMoeda(this)"></div>
       </div>
     </div>
   </div>
@@ -150,49 +71,55 @@
 </div>
 
 <script>
-  const ids = ['usuarios', 'validade', 'impl', 'op1', 'op1_adic', 'op2', 'op2_adic', 'showIA', 'showCanal'];
-  
+  function mascaraMoeda(i) {
+    let v = i.value.replace(/\D/g, '');
+    v = (v / 100).toFixed(2) + '';
+    v = v.replace(".", ",");
+    v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
+    v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
+    i.value = v;
+    atualizar();
+  }
+
+  function moneyToFloat(v) {
+    if(!v) return 0;
+    return parseFloat(v.replace(/\./g, '').replace(',', '.'));
+  }
+
   function format(v) {
     return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
   function atualizar() {
-    const d = {};
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      d[id] = el.type === 'checkbox' ? el.checked : el.value;
-    });
+    const d = {
+      usuarios: document.getElementById('usuarios').value,
+      validade: document.getElementById('validade').value,
+      impl: moneyToFloat(document.getElementById('impl').value),
+      op1: moneyToFloat(document.getElementById('op1').value),
+      op1_adic: moneyToFloat(document.getElementById('op1_adic').value),
+      op2: moneyToFloat(document.getElementById('op2').value),
+      op2_adic: moneyToFloat(document.getElementById('op2_adic').value),
+      showIA: document.getElementById('showIA').checked,
+      showCanal: document.getElementById('showCanal').checked
+    };
 
     const n = parseInt(d.usuarios) || 1;
     const adic = n - 1;
-    const vImpl = parseFloat(d.impl) || 0;
-    const vOp1 = (parseFloat(d.op1) || 0) + (adic * (parseFloat(d.op1_adic) || 0));
-    const vOp2 = (parseFloat(d.op2) || 0) + (adic * (parseFloat(d.op2_adic) || 0));
+    const vOp1 = d.op1 + (adic * d.op1_adic);
+    const vOp2 = d.op2 + (adic * d.op2_adic);
 
     let txt = `📄 Proposta – METRA CLOUD (${n.toString().padStart(2, '0')} usuário${n > 1 ? 's' : ''})\n\n`;
-    
-    txt += `💰 *Licença + capacitação*\n`;
-    txt += `De R$ 1.500,00 ➝ *${format(vImpl)}*\n`;
-    txt += `ou 10x de ${format(vImpl/10)}\n\n`;
-
-    txt += `🔹 *Opção 01 – Sistema (sem Faturamento e Financeiro)*\n`;
-    txt += `*${format(vOp1)} / mês*\n\n`;
-
-    txt += `⭐ *Opção 02 – Sistema completo (com Faturamento e Financeiro)*\n`;
-    txt += `*${format(vOp2)} / mês*\n\n`;
+    txt += `💰 *Licença + capacitação*\nDe R$ 1.500,00 ➝ *${format(d.impl)}*\nou 10x de ${format(d.impl/10)}\n\n`;
+    txt += `🔹 *Opção 01 – Sistema (sem Faturamento e Financeiro)*\n*${format(vOp1)} / mês*\n\n`;
+    txt += `⭐ *Opção 02 – Sistema completo (com Faturamento e Financeiro)*\n*${format(vOp2)} / mês*\n\n`;
 
     if(d.showCanal) {
-      txt += `➕ *Canal de Denúncia*\n`;
-      txt += `*R$ 49,90 / mês por empresa*\n`;
-      txt += `💡 Pode ser ofertado para sua base como serviço adicional, gerando receita recorrente\n\n`;
+      txt += `➕ *Canal de Denúncia*\n*R$ 49,90 / mês por empresa*\n💡 Pode ser ofertado para sua base como serviço adicional, gerando receita recorrente\n\n`;
     }
-
     if(d.showIA) {
       txt += `🤖 *Em breve:* IA que, ao cadastrar a empresa, sugere automaticamente setores e funções com base no CNAE\n\n`;
     }
-
-    txt += `🔓 *Liberação em 1 dia útil*\n`;
-    txt += `🗓 *Condição válida até ${d.validade}*`;
+    txt += `🔓 *Liberação em 1 dia útil*\n🗓 *Condição válida até ${d.validade}*`;
 
     document.getElementById('preview').textContent = txt;
   }
@@ -203,14 +130,11 @@
     navigator.clipboard.writeText(text).then(() => {
       btn.textContent = "✅ COPIADO!";
       btn.style.background = "#10b981";
-      setTimeout(() => {
-        btn.textContent = "COPIAR PROPOSTA";
-        btn.style.background = "";
-      }, 2000);
+      setTimeout(() => { btn.textContent = "COPIAR PROPOSTA"; btn.style.background = ""; }, 2000);
     });
   }
 
-  ids.forEach(id => document.getElementById(id).addEventListener('input', atualizar));
+  document.querySelectorAll('input').forEach(el => el.addEventListener('input', atualizar));
   atualizar();
 </script>
 
