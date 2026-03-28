@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Proposta - METRA CLOUD</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --card-2: #1f2937;
+      --line: rgba(255,255,255,0.08);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --green: #22c55e;
+      --blue: #38bdf8;
+      --gold: #f59e0b;
+      --danger: #ef4444;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 22px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(34,197,94,0.15), transparent 20%),
+        linear-gradient(135deg, #020617, #0f172a 45%, #111827);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .panel {
+      background: rgba(17,24,39,0.88);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-panel {
+      padding: 24px;
+      position: sticky;
+      top: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #001018;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin: 6px 0 24px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #dbeafe;
+    }
+
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 14px;
+      outline: none;
+      font-size: 15px;
+      transition: 0.2s ease;
+    }
+
+    .textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      border-color: rgba(56,189,248,0.7);
+      box-shadow: 0 0 0 4px rgba(56,189,248,0.12);
+    }
+
+    .inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .switch-row span {
+      font-size: 14px;
+      color: #e5eefc;
+      font-weight: 600;
+    }
+
+    .switch-row small {
+      display: block;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 3px;
+    }
+
+    .switch {
+      position: relative;
+      width: 54px;
+      height: 30px;
+      flex-shrink: 0;
+    }
+
+    .switch input { display: none; }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      transition: .25s ease;
+      cursor: pointer;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 4px;
+      top: 4px;
+      border-radius: 50%;
+      background: white;
+      transition: .25s ease;
+    }
+
+    .switch input:checked + .slider {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+    }
+
+    .switch input:checked + .slider::before {
+      transform: translateX(24px);
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: #03131d;
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .preview-panel {
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.24);
+      color: #bbf7d0;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .price-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .price-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .price-card .k {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .price-card .v {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .proposal {
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 28px;
+      white-space: pre-wrap;
+      font-size: 18px;
+      line-height: 1.7;
+      color: #f8fafc;
+      min-height: 560px;
+    }
+
+    .proposal strong { color: white; }
+
+    .footer-note {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .form-panel {
+        position: static;
+      }
+
+      .price-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 14px; }
+      .inline,
+      .buttons,
+      .price-cards {
+        grid-template-columns: 1fr;
+      }
+      .proposal {
+        padding: 20px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="panel form-panel">
+      <div class="brand">
+        <div class="brand-badge">M</div>
+        <div>
+          <h1>Gerador de Proposta</h1>
+          <div style="color:#cbd5e1;font-size:13px;margin-top:3px;">METRA CLOUD</div>
+        </div>
+      </div>
+      <p class="subtitle">Digite os dados, escolha a quantidade de usuários e gere a proposta pronta para copiar e enviar.</p>
+
+      <div class="field">
+        <label for="cliente">Cliente</label>
+        <input id="cliente" class="input" type="text" placeholder="Nome da empresa" />
+      </div>
+
+      <div class="inline">
+        <div class="field">
+          <label for="usuarios">Quantidade de usuários</label>
+          <input id="usuarios" class="input" type="number" min="1" value="1" />
+        </div>
+        <div class="field">
+          <label for="validade">Validade da condição</label>
+          <input id="validade" class="input" type="text" value="27/03" />
+        </div>
+      </div>
+
+      <div class="switch-row">
+        <div>
+          <span>Exibir Canal de Denúncia</span>
+          <small>R$ 49,90 / mês por empresa</small>
+        </div>
+        <label class="switch">
+          <input id="mostrarCanal" type="checkbox" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="switch-row">
+        <div>
+          <span>Exibir bloco de IA</span>
+          <small>Mostra a novidade do CNAE</small>
+        </div>
+        <label class="switch">
+          <input id="mostrarIA" type="checkbox" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="field">
+        <label for="obs">Observação extra</label>
+        <textarea id="obs" class="textarea" placeholder="Ex.: proposta especial para fechamento imediato."></textarea>
+      </div>
+
+      <div class="buttons">
+        <button class="btn-primary" onclick="copiarProposta()">Copiar proposta</button>
+        <button class="btn-secondary" onclick="limparCampos()">Limpar</button>
+      </div>
+    </section>
+
+    <section class="panel preview-panel">
+      <div class="topbar">
+        <div class="tag">Proposta dinâmica</div>
+        <div style="color:#94a3b8;font-size:13px;">Atualização automática conforme nº de usuários</div>
+      </div>
+
+      <div class="price-cards">
+        <div class="price-card">
+          <div class="k">Licença + capacitação</div>
+          <div class="v" id="cardLicenca">R$ 480,00</div>
+        </div>
+        <div class="price-card">
+          <div class="k">Opção 01</div>
+          <div class="v" id="cardOpcao1">R$ 250,00</div>
+        </div>
+        <div class="price-card">
+          <div class="k">Opção 02</div>
+          <div class="v" id="cardOpcao2">R$ 299,90</div>
+        </div>
+        <div class="price-card">
+          <div class="k">Canal de Denúncia</div>
+          <div class="v" id="cardCanal">R$ 49,90</div>
+        </div>
+      </div>
+
+      <div id="proposta" class="proposal"></div>
+      <div class="footer-note">A regra usada é: licença fixa, Opção 01 com acréscimo de R$ 75,00 por usuário adicional e Opção 02 com acréscimo de R$ 100,00 por usuário adicional.</div>
+    </section>
+  </div>
+
+  <script>
+    const el = {
+      cliente: document.getElementById('cliente'),
+      usuarios: document.getElementById('usuarios'),
+      validade: document.getElementById('validade'),
+      mostrarCanal: document.getElementById('mostrarCanal'),
+      mostrarIA: document.getElementById('mostrarIA'),
+      obs: document.getElementById('obs'),
+      proposta: document.getElementById('proposta'),
+      cardLicenca: document.getElementById('cardLicenca'),
+      cardOpcao1: document.getElementById('cardOpcao1'),
+      cardOpcao2: document.getElementById('cardOpcao2'),
+      cardCanal: document.getElementById('cardCanal')
+    };
+
+    function moeda(valor) {
+      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function numeroUsuariosFormatado(qtd) {
+      return String(qtd).padStart(2, '0');
+    }
+
+    function calcularValores() {
+      const usuarios = Math.max(1, parseInt(el.usuarios.value || '1', 10));
+      const adicionais = Math.max(0, usuarios - 1);
+
+      return {
+        usuarios,
+        licenca: 480,
+        parcelaLicenca: 48,
+        opcao1: 250 + (adicionais * 75),
+        opcao2: 299.90 + (adicionais * 100),
+        canal: 49.90
+      };
+    }
+
+    function gerarProposta() {
+      const dados = calcularValores();
+      const cliente = el.cliente.value.trim();
+      const validade = el.validade.value.trim() || '27/03';
+      const incluirCanal = el.mostrarCanal.checked;
+      const incluirIA = el.mostrarIA.checked;
+      const obs = el.obs.value.trim();
+
+      el.cardLicenca.textContent = moeda(dados.licenca);
+      el.cardOpcao1.textContent = moeda(dados.opcao1);
+      el.cardOpcao2.textContent = moeda(dados.opcao2);
+      el.cardCanal.textContent = moeda(dados.canal);
+
+      let texto = '';
+
+      texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
+      texto += dados.usuarios > 1 ? 's' : '';
+      texto += ')\n\n';
+
+      if (cliente) {
+        texto += '🏢 Cliente: ' + cliente + '\n\n';
+      }
+
+      texto += '💰 Licença + capacitação\n';
+      texto += 'De R$ 1.500,00 ➝ ' + moeda(dados.licenca) + '\n';
+      texto += 'ou 10x de ' + moeda(dados.parcelaLicenca) + '\n\n';
+
+      texto += '🔹 Opção 01 – Sistema (sem Faturamento e Financeiro)\n';
+      texto += moeda(dados.opcao1) + ' / mês\n\n';
+
+      texto += '⭐ Opção 02 – Sistema completo (com Faturamento e Financeiro)\n';
+      texto += moeda(dados.opcao2) + ' / mês\n\n';
+
+      if (incluirCanal) {
+        texto += '➕ Canal de Denúncia\n';
+        texto += moeda(dados.canal) + ' / mês por empresa\n';
+        texto += '💡 Pode ser ofertado para sua base como serviço adicional, gerando receita recorrente\n\n';
+      }
+
+      if (incluirIA) {
+        texto += '🤖 Em breve: IA que, ao cadastrar a empresa, sugere automaticamente setores e funções com base no CNAE\n\n';
+      }
+
+      texto += '🔓 Liberação em 1 dia útil\n';
+      texto += '🗓 Condição válida até ' + validade;
+
+      if (obs) {
+        texto += '\n\n📌 Observação: ' + obs;
+      }
+
+      el.proposta.textContent = texto;
+    }
+
+    function copiarProposta() {
+      gerarProposta();
+      const texto = el.proposta.textContent;
+
+      navigator.clipboard.writeText(texto)
+        .then(() => {
+          alert('Proposta copiada com sucesso.');
+        })
+        .catch(() => {
+          alert('Não foi possível copiar automaticamente. Copie manualmente o texto da proposta.');
+        });
+    }
+
+    function limparCampos() {
+      el.cliente.value = '';
+      el.usuarios.value = 1;
+      el.validade.value = '27/03';
+      el.mostrarCanal.checked = true;
+      el.mostrarIA.checked = true;
+      el.obs.value = '';
+      gerarProposta();
+    }
+
+    ['input', 'change'].forEach(evento => {
+      Object.values(el).forEach(item => {
+        if (item && (item.tagName === 'INPUT' || item.tagName === 'TEXTAREA')) {
+          item.addEventListener(evento, gerarProposta);
+        }
+      });
+    });
+
+    gerarProposta();
+  </script>
+</body>
+</html>
