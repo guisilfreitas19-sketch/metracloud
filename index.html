@@ -3,340 +3,234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerador de Proposta - METRA CLOUD | v1.3</title>
+  <title>Metra Cloud - Gerador WhatsApp</title>
   <style>
     :root {
-      --bg: #020617;
-      --card: #0f172a;
-      --border: rgba(255,255,255,0.1);
-      --accent: linear-gradient(135deg, #38bdf8, #22c55e);
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --radius: 16px;
+      --bg: #070a13;
+      --card: #101625;
+      --accent: #22c55e;
+      --blue: #3b82f6;
+      --text: #e2e8f0;
     }
-
-    * { box-sizing: border-box; transition: all 0.2s ease; }
 
     body {
-      margin: 0;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background-color: var(--bg);
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(34, 197, 94, 0.1) 0px, transparent 50%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
       color: var(--text);
+      display: flex;
+      justify-content: center;
       padding: 20px;
-      line-height: 1.5;
+      margin: 0;
     }
 
-    .container {
-      max-width: 1240px;
-      margin: 0 auto;
+    .app-container {
+      width: 100%;
+      max-width: 900px;
       display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 24px;
+      grid-template-columns: 350px 1fr;
+      gap: 20px;
     }
 
     .panel {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* FORMULÁRIO */
-    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .logo-icon { 
-      background: var(--accent); 
-      width: 40px; height: 40px; 
-      border-radius: 10px; 
-      display: flex; align-items: center; justify-content: center;
-      color: #000; font-weight: 900;
-    }
+    h2 { font-size: 18px; margin-top: 0; color: var(--blue); }
 
-    .field { margin-bottom: 16px; }
-    label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .input-group { margin-bottom: 15px; }
+    label { display: block; font-size: 12px; margin-bottom: 5px; color: #94a3b8; font-weight: bold; }
     
-    input, textarea, select {
+    input, textarea {
       width: 100%;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px;
       color: white;
       font-size: 14px;
     }
 
-    input:focus { border-color: #38bdf8; outline: none; background: rgba(255,255,255,0.08); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    /* SWITCH CUSTOM */
-    .switch-group {
-      background: rgba(255,255,255,0.03);
-      padding: 12px;
+    .btn-copy {
+      width: 100%;
+      padding: 15px;
+      background: var(--accent);
+      color: #052e16;
+      border: none;
       border-radius: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-copy:active { transform: scale(0.98); }
+
+    .preview-box {
+      background: #0b141a; /* Cor do fundo do WhatsApp Dark */
+      border-radius: 12px;
+      padding: 20px;
+      white-space: pre-wrap;
+      font-size: 15px;
+      line-height: 1.5;
+      color: #e9edef;
+      border-left: 4px solid var(--accent);
+    }
+
+    .config-trigger {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: underline;
       margin-bottom: 10px;
     }
 
-    .switch { position: relative; width: 44px; height: 24px; cursor: pointer; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; inset: 0; background: #334155; border-radius: 20px; }
-    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; }
-    input:checked + .slider { background: #22c55e; }
-    input:checked + .slider:before { transform: translateX(20px); }
+    #config-area { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #334155; }
+    #config-area.open { display: block; }
 
-    /* BOTÕES */
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn-primary { background: var(--accent); color: #020617; }
-    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-    .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); margin-top: 10px; }
-    
-    /* PREVIEW */
-    .preview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .badge { background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; }
-    
-    .cards-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
-    .mini-card { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
-    .mini-card span { display: block; font-size: 10px; color: var(--muted); text-transform: uppercase; }
-    .mini-card b { font-size: 16px; color: #fff; }
-
-    #proposta-preview {
-      background: #fff;
-      color: #1e293b;
-      padding: 40px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 15px;
-      min-height: 600px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-      line-height: 1.6;
-    }
-
-    .config-box { overflow: hidden; max-height: 0; transition: max-height 0.3s ease-out; }
-    .config-box.open { max-height: 500px; margin-bottom: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
-
-    @media (max-width: 900px) {
-      .container { grid-template-columns: 1fr; }
-      .cards-row { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 768px) {
+      .app-container { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <aside class="panel">
-    <div class="brand">
-      <div class="logo-icon">M</div>
-      <div>
-        <h2 style="margin:0; font-size: 18px;">Metra Cloud</h2>
-        <span style="font-size: 12px; color: var(--muted);">Gerador de Propostas v1.3</span>
-      </div>
-    </div>
-
-    <div class="field">
-      <label>Cliente</label>
-      <input type="text" id="cliente" placeholder="Ex: Tecno Logística LTDA">
-    </div>
-
-    <div class="grid-2">
-      <div class="field">
+<div class="app-container">
+  <div class="panel">
+    <h2>🚀 Gerador Metra</h2>
+    
+    <div class="row">
+      <div class="input-group">
         <label>Usuários</label>
         <input type="number" id="usuarios" value="1" min="1">
       </div>
-      <div class="field">
+      <div class="input-group">
         <label>Validade</label>
-        <input type="text" id="validade" value="10/04">
+        <input type="text" id="validade" value="27/03">
       </div>
     </div>
 
-    <button class="btn btn-ghost" onclick="document.getElementById('configBox').classList.toggle('open')">
-      ⚙️ Ajustar Valores Base
+    <button class="config-trigger" onclick="document.getElementById('config-area').classList.toggle('open')">
+      ⚙️ Ajustar Preços Base
     </button>
 
-    <div id="configBox" class="config-box">
-      <div class="field">
-        <label>Taxa de Implantação (R$)</label>
-        <input type="number" id="licenca" value="480" step="0.01">
+    <div id="config-area">
+      <div class="input-group">
+        <label>Implantação (R$)</label>
+        <input type="number" id="impl" value="480">
       </div>
-      <div class="grid-2">
-        <div class="field">
+      <div class="row">
+        <div class="input-group">
           <label>Op1 Base</label>
-          <input type="number" id="op1Base" value="250">
+          <input type="number" id="op1" value="200">
         </div>
-        <div class="field">
-          <label>Op1 Adic.</label>
-          <input type="number" id="op1Adic" value="75">
+        <div class="input-group">
+          <label>Op1 Adicional</label>
+          <input type="number" id="op1_adic" value="75">
         </div>
       </div>
-      <div class="grid-2">
-        <div class="field">
+      <div class="row">
+        <div class="input-group">
           <label>Op2 Base</label>
-          <input type="number" id="op2Base" value="299.90">
+          <input type="number" id="op2" value="259.90">
         </div>
-        <div class="field">
-          <label>Op2 Adic.</label>
-          <input type="number" id="op2Adic" value="100">
+        <div class="input-group">
+          <label>Op2 Adicional</label>
+          <input type="number" id="op2_adic" value="100">
         </div>
       </div>
     </div>
 
-    <div class="switch-group">
-      <div>
-        <div style="font-size: 14px;">Canal de Denúncia</div>
-        <div style="font-size: 11px; color: var(--muted);">+ R$ 49,90/mês</div>
-      </div>
-      <label class="switch">
-        <input type="checkbox" id="checkCanal" checked>
-        <span class="slider"></span>
-      </label>
+    <div class="input-group" style="display:flex; align-items:center; gap:10px; margin-top:15px;">
+      <input type="checkbox" id="showIA" checked style="width:20px; height:20px;">
+      <label style="margin:0">Incluir Bloco IA</label>
     </div>
 
-    <div class="switch-group">
-      <div>
-        <div style="font-size: 14px;">Módulo IA (CNAE)</div>
-        <div style="font-size: 11px; color: var(--muted);">Exibir spoiler</div>
-      </div>
-      <label class="switch">
-        <input type="checkbox" id="checkIA" checked>
-        <span class="slider"></span>
-      </label>
+    <div class="input-group" style="display:flex; align-items:center; gap:10px;">
+      <input type="checkbox" id="showCanal" checked style="width:20px; height:20px;">
+      <label style="margin:0">Incluir Canal Denúncia</label>
     </div>
 
-    <div class="field">
-      <label>Observações</label>
-      <textarea id="obs" rows="3" placeholder="Algo especial?"></textarea>
-    </div>
+    <button class="btn-copy" id="btnCopiar" onclick="copiar()">COPIAR PARA WHATSAPP</button>
+  </div>
 
-    <button class="btn btn-primary" id="btnCopiar" onclick="copiarProposta()">
-      <span>📋 Copiar Proposta</span>
-    </button>
-  </aside>
-
-  <main class="panel" style="background: rgba(15, 23, 42, 0.6);">
-    <div class="preview-header">
-      <span class="badge">LIVE PREVIEW</span>
-      <div id="resumo-topo" style="font-size: 13px; color: var(--muted);"></div>
-    </div>
-
-    <div class="cards-row">
-      <div class="mini-card"><span>Implantação</span><b id="v-impl">R$ 0</b></div>
-      <div class="mini-card"><span>Opção 01</span><b id="v-op1">R$ 0</b></div>
-      <div class="mini-card"><span>Opção 02</span><b id="v-op2">R$ 0</b></div>
-      <div class="mini-card"><span>Recorrente</span><b id="v-total">R$ 0</b></div>
-    </div>
-
-    <div id="proposta-preview"></div>
-  </main>
+  <div class="panel">
+    <label>PRÉ-VISUALIZAÇÃO (WHATSAPP)</label>
+    <div id="preview" class="preview-box"></div>
+  </div>
 </div>
 
 <script>
-  const campos = ['cliente', 'usuarios', 'validade', 'licenca', 'op1Base', 'op1Adic', 'op2Base', 'op2Adic', 'checkCanal', 'checkIA', 'obs'];
+  const ids = ['usuarios', 'validade', 'impl', 'op1', 'op1_adic', 'op2', 'op2_adic', 'showIA', 'showCanal'];
   
-  function fmt(v) {
+  function format(v) {
     return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  function gerar() {
+  function atualizar() {
     const d = {};
-    campos.forEach(c => {
-      const el = document.getElementById(c);
-      d[c] = el.type === 'checkbox' ? el.checked : el.value;
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      d[id] = el.type === 'checkbox' ? el.checked : el.value;
     });
 
-    const qtd = parseInt(d.usuarios) || 1;
-    const adic = qtd - 1;
+    const n = parseInt(d.usuarios) || 1;
+    const adic = n - 1;
 
-    const implantação = parseFloat(d.licenca);
-    const vOp1 = parseFloat(d.op1Base) + (adic * parseFloat(d.op1Adic));
-    const vOp2 = parseFloat(d.op2Base) + (adic * parseFloat(d.op2Adic));
-    const vCanal = 49.90;
+    const vImpl = parseFloat(d.impl);
+    const vOp1 = parseFloat(d.op1) + (adic * parseFloat(d.op1_adic));
+    const vOp2 = parseFloat(d.op2) + (adic * parseFloat(d.op2_adic));
 
-    // Atualiza cards
-    document.getElementById('v-impl').textContent = fmt(implantação);
-    document.getElementById('v-op1').textContent = fmt(vOp1);
-    document.getElementById('v-op2').textContent = fmt(vOp2);
-    document.getElementById('v-total').textContent = fmt(d.checkCanal ? vOp2 + vCanal : vOp2);
-
-    // Monta Texto
-    let t = `📄 PROPOSTA COMERCIAL - METRA CLOUD\n`;
-    t += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+    let txt = `📄 Proposta – METRA CLOUD (${n.toString().padStart(2, '0')} usuário${n > 1 ? 's' : ''})\n\n`;
     
-    if(d.cliente) t += `EMPRESA: ${d.cliente.toUpperCase()}\n`;
-    t += `USUÁRIOS: ${qtd.toString().padStart(2, '0')}\n\n`;
+    txt += `💰 Licença + capacitação\n`;
+    txt += `De R$ 1.500,00 ➝ ${format(vImpl)}\n`;
+    txt += `ou 10x de ${format(vImpl/10)}\n\n`;
 
-    t += `💰 INVESTIMENTO INICIAL\n`;
-    t += `Licença + Capacitação: de R$ 1.500,00 por apenas ${fmt(implantação)}\n`;
-    t += `👉 ou 10x de ${fmt(implantação/10)} no cartão\n\n`;
+    txt += `🔹 Opção 01 – Sistema (sem Faturamento e Financeiro)\n`;
+    txt += `${format(vOp1)} / mês\n\n`;
 
-    t += `🔹 OPÇÃO 01 - SISTEMA ESSENCIAL\n`;
-    t += `(Sem Faturamento e Financeiro)\n`;
-    t += `Valor mensal: ${fmt(vOp1)}\n\n`;
+    txt += `⭐ Opção 02 – Sistema completo (com Faturamento e Financeiro)\n`;
+    txt += `${format(vOp2)} / mês\n\n`;
 
-    t += `⭐ OPÇÃO 02 - SISTEMA COMPLETO\n`;
-    t += `(Com Faturamento e Financeiro)\n`;
-    t += `Valor mensal: ${fmt(vOp2)}\n\n`;
-
-    if(d.checkCanal) {
-      t += `➕ ADICIONAL: CANAL DE DENÚNCIA\n`;
-      t += `Valor: ${fmt(vCanal)} / mês por empresa\n`;
-      t += `(Gere receita recorrente oferecendo este serviço)\n\n`;
+    if(d.showCanal) {
+      txt += `➕ Canal de Denúncia\n`;
+      txt += `R$ 49,90 / mês por empresa\n`;
+      txt += `💡 Pode ser ofertado para sua base como serviço adicional, gerando receita recorrente\n\n`;
     }
 
-    if(d.checkIA) {
-      t += `🤖 NOVIDADE IA\n`;
-      t += `Em breve: Sugestão automática de setores/funções via CNAE.\n\n`;
+    if(d.showIA) {
+      txt += `🤖 Em breve: IA que, ao cadastrar a empresa, sugere automaticamente setores e funções com base no CNAE\n\n`;
     }
 
-    t += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-    t += `✅ Liberação em 1 dia útil\n`;
-    t += `⏳ Condição válida até: ${d.validade}\n`;
+    txt += `🔓 Liberação em 1 dia útil\n`;
+    txt += `🗓 Condição válida até ${d.validade}`;
 
-    if(d.obs) t += `\n📌 NOTA: ${d.obs}\n`;
-
-    t += `\nGerado via Metra Cloud Business v1.3`;
-
-    document.getElementById('proposta-preview').textContent = t;
+    document.getElementById('preview').textContent = txt;
   }
 
-  function copiarProposta() {
-    const texto = document.getElementById('proposta-preview').textContent;
+  function copiar() {
+    const text = document.getElementById('preview').textContent;
     const btn = document.getElementById('btnCopiar');
     
-    navigator.clipboard.writeText(texto).then(() => {
-      const original = btn.innerHTML;
-      btn.style.background = '#22c55e';
-      btn.innerHTML = '✅ Copiado!';
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = "✅ COPIADO!";
+      btn.style.background = "#15803d";
       setTimeout(() => {
-        btn.style.background = '';
-        btn.innerHTML = original;
+        btn.textContent = "COPIAR PARA WHATSAPP";
+        btn.style.background = "";
       }, 2000);
     });
   }
 
-  // Event Listeners
-  campos.forEach(c => {
-    document.getElementById(c).addEventListener('input', gerar);
-  });
-
-  // Inicializa
-  gerar();
+  ids.forEach(id => document.getElementById(id).addEventListener('input', atualizar));
+  atualizar();
 </script>
 
 </body>
