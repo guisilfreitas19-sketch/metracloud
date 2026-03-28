@@ -523,20 +523,10 @@
       let texto = '';
 
       if (cliente) {
-        texto += '📄 Proposta – ' + cliente.toUpperCase() + '
-';
-        texto += 'METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
-        texto += dados.usuarios > 1 ? 's' : '';
-        texto += ')
-
-';
+        texto += '📄 Proposta – ' + cliente.toUpperCase() + '\n';
+        texto += 'METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário' + (dados.usuarios > 1 ? 's' : '') + ')\n\n';
       } else {
-        texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário'; (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
-      texto += dados.usuarios > 1 ? 's' : '';
-      texto += ')\n\n';
-
-      if (cliente) {
-        texto += '🏢 Cliente: ' + cliente + '\n\n';
+        texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário' + (dados.usuarios > 1 ? 's' : '') + ')\n\n';
       }
 
       texto += '💰 Licença + capacitação\n';
