@@ -563,10 +563,14 @@
       texto += '🗓 Condição válida até ' + validade;
 
       if (obs) {
-        texto += '\n\n📌 Observação: ' + obs;
+        texto += '
+
+📌 Observação: ' + obs;
       }
 
-      texto += '\n\n— Gerado no app METRA CLOUD v1.1';
+      texto += '
+
+— Gerado no app METRA CLOUD v1.1';
 
       el.proposta.textContent = texto;
     }
