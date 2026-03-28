@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Metra Cloud - Gerador Pro</title>
+  <title>Metra Cloud - Elite Sales Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --primary: #1e40af; --bg: #f8fafc; --border: #e2e8f0; --text: #1e293b; }
     * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: all 0.2s ease; }
     body { background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
     .container { width: 100%; max-width: 950px; display: grid; grid-template-columns: 360px 1fr; gap: 24px; }
-    .card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+    .card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--border); height: fit-content; }
     .logo-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
     .logo-sq { background: var(--primary); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; }
     h2 { font-size: 18px; margin: 0; color: var(--primary); }
@@ -22,8 +22,14 @@
     .preview-area { background: #e5ddd5; border-radius: 16px; padding: 30px; border: 1px solid var(--border); display: flex; flex-direction: column; }
     .wa-bubble { background: white; padding: 20px; border-radius: 0 15px 15px 15px; font-size: 15px; line-height: 1.5; color: #111b21; white-space: pre-wrap; box-shadow: 0 1px 2px rgba(0,0,0,0.1); position: relative; align-self: flex-start; }
     .wa-bubble::before { content: ""; position: absolute; left: -10px; top: 0; border-style: solid; border-width: 0 10px 10px 0; border-color: transparent white transparent transparent; }
-    .config-sec { display: block; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); }
+    
+    /* Área de Senha e Config */
+    .config-sec { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); animation: fadeIn 0.3s; }
+    .pass-area { display: none; margin-top: 15px; text-align: center; }
+    .config-btn { background: none; border: none; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; width: 100%; text-align: center; margin-top: 15px; text-decoration: underline; }
     .switch-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding: 10px; background: #f8fafc; border-radius: 8px; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     @media (max-width: 800px) { .container { grid-template-columns: 1fr; } }
   </style>
 </head>
@@ -33,7 +39,7 @@
   <div class="card">
     <div class="logo-header">
       <div class="logo-sq">M</div>
-      <div><h2>Metra Cloud</h2><small style="color:#94a3b8">Gerador WhatsApp v1.9</small></div>
+      <div><h2>Metra Cloud</h2><small style="color:#94a3b8">Elite Sales v2.1</small></div>
     </div>
 
     <div class="grid">
@@ -51,6 +57,13 @@
 
     <button class="btn-copy" id="btnCopiar" onclick="copiar()">COPIAR PROPOSTA</button>
 
+    <button class="config-btn" id="masterToggle" onclick="showPassInput()">CONFIGURAR PREÇOS BASE ▼</button>
+
+    <div id="passArea" class="pass-area">
+      <label>Digite a Senha Mestra</label>
+      <input type="password" id="passInput" placeholder="••••••••" onkeyup="checkPass(this.value)">
+    </div>
+
     <div id="conf" class="config-sec">
       <div class="field" style="margin-bottom:10px;"><label>Implantação</label><input type="text" id="impl" value="480,00" oninput="mascaraMoeda(this)"></div>
       <div class="grid">
@@ -61,16 +74,52 @@
         <div><label>Op2 Base</label><input type="text" id="op2" value="299,90" oninput="mascaraMoeda(this)"></div>
         <div><label>Op2 Adic</label><input type="text" id="op2_adic" value="100,00" oninput="mascaraMoeda(this)"></div>
       </div>
+      <p style="font-size: 10px; color: #94a3b8; text-align: center;">Os valores acima são salvos automaticamente.</p>
     </div>
   </div>
 
   <div class="preview-area">
-    <div style="font-size: 11px; color: #54656f; font-weight: 700; margin-bottom: 15px; text-align: center;">PRÉ-VISUALIZAÇÃO</div>
+    <div style="font-size: 11px; color: #54656f; font-weight: 700; margin-bottom: 15px; text-align: center;">PRÉ-VISUALIZAÇÃO (WHATSAPP)</div>
     <div id="preview" class="wa-bubble"></div>
   </div>
 </div>
 
 <script>
+  // Senha: Metra@2026
+  let authenticated = false;
+
+  function showPassInput() {
+    if(authenticated) {
+        toggleConfig();
+        return;
+    }
+    document.getElementById('passArea').style.display = 'block';
+    document.getElementById('passInput').focus();
+    document.getElementById('masterToggle').style.display = 'none';
+  }
+
+  function checkPass(val) {
+    if(val === 'Metra@2026') {
+        authenticated = true;
+        document.getElementById('passArea').style.display = 'none';
+        document.getElementById('masterToggle').style.display = 'block';
+        document.getElementById('masterToggle').textContent = "OCULTAR PREÇOS BASE ▲";
+        toggleConfig();
+    }
+  }
+
+  function toggleConfig() {
+    const section = document.getElementById('conf');
+    const btn = document.getElementById('masterToggle');
+    if(section.style.display === 'block') {
+        section.style.display = 'none';
+        btn.textContent = "CONFIGURAR PREÇOS BASE ▼";
+    } else {
+        section.style.display = 'block';
+        btn.textContent = "OCULTAR PREÇOS BASE ▲";
+    }
+  }
+
   function mascaraMoeda(i) {
     let v = i.value.replace(/\D/g, '');
     v = (v / 100).toFixed(2) + '';
@@ -78,6 +127,7 @@
     v = v.replace(/(\d)(\d{3})(\d{3}),/g, "$1.$2.$3,");
     v = v.replace(/(\d)(\d{3}),/g, "$1.$2,");
     i.value = v;
+    salvarDados();
     atualizar();
   }
 
@@ -90,36 +140,53 @@
     return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 
-  function atualizar() {
-    const d = {
-      usuarios: document.getElementById('usuarios').value,
-      validade: document.getElementById('validade').value,
-      impl: moneyToFloat(document.getElementById('impl').value),
-      op1: moneyToFloat(document.getElementById('op1').value),
-      op1_adic: moneyToFloat(document.getElementById('op1_adic').value),
-      op2: moneyToFloat(document.getElementById('op2').value),
-      op2_adic: moneyToFloat(document.getElementById('op2_adic').value),
+  function salvarDados() {
+    const config = {
+      impl: document.getElementById('impl').value,
+      op1: document.getElementById('op1').value,
+      op1_adic: document.getElementById('op1_adic').value,
+      op2: document.getElementById('op2').value,
+      op2_adic: document.getElementById('op2_adic').value,
       showIA: document.getElementById('showIA').checked,
       showCanal: document.getElementById('showCanal').checked
     };
+    localStorage.setItem('metraConfig', JSON.stringify(config));
+  }
 
-    const n = parseInt(d.usuarios) || 1;
+  function carregarDados() {
+    const salvo = localStorage.getItem('metraConfig');
+    if(salvo) {
+      const c = JSON.parse(salvo);
+      document.getElementById('impl').value = c.impl;
+      document.getElementById('op1').value = c.op1;
+      document.getElementById('op1_adic').value = c.op1_adic;
+      document.getElementById('op2').value = c.op2;
+      document.getElementById('op2_adic').value = c.op2_adic;
+      document.getElementById('showIA').checked = c.showIA;
+      document.getElementById('showCanal').checked = c.showCanal;
+    }
+  }
+
+  function atualizar() {
+    const n = parseInt(document.getElementById('usuarios').value) || 1;
     const adic = n - 1;
-    const vOp1 = d.op1 + (adic * d.op1_adic);
-    const vOp2 = d.op2 + (adic * d.op2_adic);
+    const impl = moneyToFloat(document.getElementById('impl').value);
+    const op1 = moneyToFloat(document.getElementById('op1').value) + (adic * moneyToFloat(document.getElementById('op1_adic').value));
+    const op2 = moneyToFloat(document.getElementById('op2').value) + (adic * moneyToFloat(document.getElementById('op2_adic').value));
+    const validade = document.getElementById('validade').value;
 
     let txt = `📄 Proposta – METRA CLOUD (${n.toString().padStart(2, '0')} usuário${n > 1 ? 's' : ''})\n\n`;
-    txt += `💰 *Licença + capacitação*\nDe R$ 1.500,00 ➝ *${format(d.impl)}*\nou 10x de ${format(d.impl/10)}\n\n`;
-    txt += `🔹 *Opção 01 – Sistema (sem Faturamento e Financeiro)*\n*${format(vOp1)} / mês*\n\n`;
-    txt += `⭐ *Opção 02 – Sistema completo (com Faturamento e Financeiro)*\n*${format(vOp2)} / mês*\n\n`;
+    txt += `💰 *Licença + capacitação*\nDe R$ 1.500,00 ➝ *${format(impl)}*\nou 10x de ${format(impl/10)}\n\n`;
+    txt += `🔹 *Opção 01 – Sistema (sem Faturamento e Financeiro)*\n*${format(op1)} / mês*\n\n`;
+    txt += `⭐ *Opção 02 – Sistema completo (com Faturamento e Financeiro)*\n*${format(op2)} / mês*\n\n`;
 
-    if(d.showCanal) {
+    if(document.getElementById('showCanal').checked) {
       txt += `➕ *Canal de Denúncia*\n*R$ 49,90 / mês por empresa*\n💡 Pode ser ofertado para sua base como serviço adicional, gerando receita recorrente\n\n`;
     }
-    if(d.showIA) {
+    if(document.getElementById('showIA').checked) {
       txt += `🤖 *Em breve:* IA que, ao cadastrar a empresa, sugere automaticamente setores e funções com base no CNAE\n\n`;
     }
-    txt += `🔓 *Liberação em 1 dia útil*\n🗓 *Condição válida até ${d.validade}*`;
+    txt += `🔓 *Liberação em 1 dia útil*\n🗓 *Condição válida até ${validade}*`;
 
     document.getElementById('preview').textContent = txt;
   }
@@ -134,8 +201,14 @@
     });
   }
 
-  document.querySelectorAll('input').forEach(el => el.addEventListener('input', atualizar));
-  atualizar();
+  document.querySelectorAll('input').forEach(el => {
+    el.addEventListener('input', () => {
+      if(el.type === 'checkbox') salvarDados();
+      atualizar();
+    });
+  });
+
+  window.onload = () => { carregarDados(); atualizar(); };
 </script>
 
 </body>
