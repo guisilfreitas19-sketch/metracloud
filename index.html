@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerador de Proposta - METRA CLOUD</title>
+  <title>Gerador de Proposta - METRA CLOUD | v1.1</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -338,10 +338,10 @@
         <div class="brand-badge">M</div>
         <div>
           <h1>Gerador de Proposta</h1>
-          <div style="color:#cbd5e1;font-size:13px;margin-top:3px;">METRA CLOUD</div>
+          <div style="color:#cbd5e1;font-size:13px;margin-top:3px;">METRA CLOUD • v1.1</div>
         </div>
       </div>
-      <p class="subtitle">Digite os dados, escolha a quantidade de usuários e gere a proposta pronta para copiar e enviar.</p>
+      <p class="subtitle">Digite os dados, ajuste os valores se necessário, escolha a quantidade de usuários e gere a proposta pronta para copiar e enviar.</p>
 
       <div class="field">
         <label for="cliente">Nome do cliente (aparece no topo da proposta)</label>
@@ -357,6 +357,38 @@
           <label for="validade">Validade da condição</label>
           <input id="validade" class="input" type="text" value="27/03" />
         </div>
+      </div>
+
+      <div class="field">
+        <label for="licenca">Licença + capacitação (valor fixo)</label>
+        <input id="licenca" class="input" type="number" min="0" step="0.01" value="480" />
+      </div>
+
+      <div class="inline">
+        <div class="field">
+          <label for="opcao1Base">Opção 01 – valor inicial</label>
+          <input id="opcao1Base" class="input" type="number" min="0" step="0.01" value="250" />
+        </div>
+        <div class="field">
+          <label for="opcao1Adicional">Opção 01 – usuário adicional</label>
+          <input id="opcao1Adicional" class="input" type="number" min="0" step="0.01" value="75" />
+        </div>
+      </div>
+
+      <div class="inline">
+        <div class="field">
+          <label for="opcao2Base">Opção 02 – valor inicial</label>
+          <input id="opcao2Base" class="input" type="number" min="0" step="0.01" value="299.90" />
+        </div>
+        <div class="field">
+          <label for="opcao2Adicional">Opção 02 – usuário adicional</label>
+          <input id="opcao2Adicional" class="input" type="number" min="0" step="0.01" value="100" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="canalValor">Canal de Denúncia / taxa extra</label>
+        <input id="canalValor" class="input" type="number" min="0" step="0.01" value="49.90" />
       </div>
 
       <div class="switch-row">
@@ -394,7 +426,7 @@
 
     <section class="panel preview-panel">
       <div class="topbar">
-        <div class="tag">Proposta dinâmica</div>
+        <div class="tag">Proposta dinâmica • v1.1</div>
         <div style="color:#94a3b8;font-size:13px;">Atualização automática conforme nº de usuários</div>
       </div>
 
@@ -418,7 +450,7 @@
       </div>
 
       <div id="proposta" class="proposal"></div>
-      <div class="footer-note">A regra usada é: licença fixa, Opção 01 com acréscimo de R$ 75,00 por usuário adicional e Opção 02 com acréscimo de R$ 100,00 por usuário adicional.</div>
+      <div class="footer-note">Versão v1.1: agora com identificação de versão em cada atualização e campos editáveis para valor inicial, usuário adicional e taxa extra, mantendo seus padrões já preenchidos.</div>
     </section>
   </div>
 
@@ -427,6 +459,12 @@
       cliente: document.getElementById('cliente'),
       usuarios: document.getElementById('usuarios'),
       validade: document.getElementById('validade'),
+      licenca: document.getElementById('licenca'),
+      opcao1Base: document.getElementById('opcao1Base'),
+      opcao1Adicional: document.getElementById('opcao1Adicional'),
+      opcao2Base: document.getElementById('opcao2Base'),
+      opcao2Adicional: document.getElementById('opcao2Adicional'),
+      canalValor: document.getElementById('canalValor'),
       mostrarCanal: document.getElementById('mostrarCanal'),
       mostrarIA: document.getElementById('mostrarIA'),
       obs: document.getElementById('obs'),
@@ -448,14 +486,24 @@
     function calcularValores() {
       const usuarios = Math.max(1, parseInt(el.usuarios.value || '1', 10));
       const adicionais = Math.max(0, usuarios - 1);
+      const licenca = Math.max(0, parseFloat(el.licenca.value || '0'));
+      const opcao1Base = Math.max(0, parseFloat(el.opcao1Base.value || '0'));
+      const opcao1Adicional = Math.max(0, parseFloat(el.opcao1Adicional.value || '0'));
+      const opcao2Base = Math.max(0, parseFloat(el.opcao2Base.value || '0'));
+      const opcao2Adicional = Math.max(0, parseFloat(el.opcao2Adicional.value || '0'));
+      const canal = Math.max(0, parseFloat(el.canalValor.value || '0'));
 
       return {
         usuarios,
-        licenca: 480,
-        parcelaLicenca: 48,
-        opcao1: 250 + (adicionais * 75),
-        opcao2: 299.90 + (adicionais * 100),
-        canal: 49.90
+        licenca,
+        parcelaLicenca: licenca / 10,
+        opcao1: opcao1Base + (adicionais * opcao1Adicional),
+        opcao2: opcao2Base + (adicionais * opcao2Adicional),
+        canal,
+        opcao1Base,
+        opcao1Adicional,
+        opcao2Base,
+        opcao2Adicional
       };
     }
 
@@ -475,10 +523,13 @@
       let texto = '';
 
       if (cliente) {
-        texto += '📄 Proposta – ' + cliente.toUpperCase() + '\n';
+        texto += '📄 Proposta – ' + cliente.toUpperCase() + '
+';
         texto += 'METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
         texto += dados.usuarios > 1 ? 's' : '';
-        texto += ')\n\n';
+        texto += ')
+
+';
       } else {
         texto += '📄 Proposta – METRA CLOUD (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário'; (' + numeroUsuariosFormatado(dados.usuarios) + ' usuário';
       texto += dados.usuarios > 1 ? 's' : '';
@@ -515,6 +566,8 @@
         texto += '\n\n📌 Observação: ' + obs;
       }
 
+      texto += '\n\n— Gerado no app METRA CLOUD v1.1';
+
       el.proposta.textContent = texto;
     }
 
@@ -535,6 +588,12 @@
       el.cliente.value = '';
       el.usuarios.value = 1;
       el.validade.value = '27/03';
+      el.licenca.value = 480;
+      el.opcao1Base.value = 250;
+      el.opcao1Adicional.value = 75;
+      el.opcao2Base.value = 299.90;
+      el.opcao2Adicional.value = 100;
+      el.canalValor.value = 49.90;
       el.mostrarCanal.checked = true;
       el.mostrarIA.checked = true;
       el.obs.value = '';
