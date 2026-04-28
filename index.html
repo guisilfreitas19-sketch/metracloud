@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Metra Cloud - v2.2.0</title>
+  <title>Metra Cloud - v2.2.1</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root { --primary: #1e40af; --bg: #f8fafc; --border: #e2e8f0; --text: #1e293b; }
@@ -23,7 +23,6 @@
     .wa-bubble { background: white; padding: 20px; border-radius: 0 15px 15px 15px; font-size: 15px; line-height: 1.5; color: #111b21; white-space: pre-wrap; box-shadow: 0 1px 2px rgba(0,0,0,0.1); position: relative; align-self: flex-start; }
     .wa-bubble::before { content: ""; position: absolute; left: -10px; top: 0; border-style: solid; border-width: 0 10px 10px 0; border-color: transparent white transparent transparent; }
     .config-sec { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); animation: fadeIn 0.3s; }
-    .pass-area { display: none; margin-top: 15px; text-align: center; }
     .config-btn { background: none; border: none; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; width: 100%; text-align: center; margin-top: 15px; text-decoration: underline; }
     .switch-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; padding: 10px; background: #f8fafc; border-radius: 8px; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -35,7 +34,7 @@
   <div class="card">
     <div class="logo-header">
       <div class="logo-sq">M</div>
-      <div><h2>Metra Cloud</h2><small style="color:#94a3b8">Elite Sales v2.2.0</small></div>
+      <div><h2>Metra Cloud</h2><small style="color:#94a3b8">Elite Sales v2.2.1</small></div>
     </div>
 
     <div class="grid">
@@ -53,12 +52,7 @@
 
     <button class="btn-copy" id="btnCopiar" onclick="copiar()">COPIAR PROPOSTA</button>
 
-    <button class="config-btn" id="masterToggle" onclick="showPassInput()">CONFIGURAR PREÇOS BASE ▼</button>
-
-    <div id="passArea" class="pass-area">
-      <label>Senha Mestra</label>
-      <input type="password" id="passInput" placeholder="••••••••" onkeyup="checkPass(this.value)">
-    </div>
+    <button class="config-btn" onclick="toggleConfig()">CONFIGURAR PREÇOS BASE ▼</button>
 
     <div id="conf" class="config-sec">
       <div class="field" style="margin-bottom:10px;"><label>Implantação</label><input type="text" id="impl" value="480,00" oninput="mascaraMoeda(this)"></div>
@@ -80,24 +74,6 @@
 </div>
 
 <script>
-  let authenticated = false;
-
-  function showPassInput() {
-    if(authenticated) { toggleConfig(); return; }
-    document.getElementById('passArea').style.display = 'block';
-    document.getElementById('passInput').focus();
-    document.getElementById('masterToggle').style.display = 'none';
-  }
-
-  function checkPass(val) {
-    if(val === 'Metra@2026') {
-        authenticated = true;
-        document.getElementById('passArea').style.display = 'none';
-        document.getElementById('masterToggle').style.display = 'block';
-        toggleConfig();
-    }
-  }
-
   function toggleConfig() {
     const section = document.getElementById('conf');
     section.style.display = section.style.display === 'block' ? 'none' : 'block';
