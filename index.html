@@ -34,7 +34,7 @@
     h2 { font-size: 18px; margin: 0; color: var(--text-main); font-weight: 800; letter-spacing: -0.5px; }
     h2 span { color: var(--text-muted); font-size: 14px; font-weight: 500; margin-left: 6px; }
     
-    /* GAVETA DE CONFIGURAÇÕES DE PREÇO */
+    /* CONFIGURAÇÃO DA GAVETA RETRÁTIL */
     .accordion-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; margin-top: 8px; flex-shrink: 0; }
     .accordion-btn:hover { border-color: #cbd5e1; color: var(--text-main); background: #f1f5f9; }
     .accordion-btn .arrow { font-size: 10px; transition: transform 0.3s ease; color: var(--primary); }
@@ -42,25 +42,32 @@
     .accordion-btn.active { background: var(--primary-light); color: var(--primary); border-color: var(--border-focus); }
     .accordion-btn.active .arrow { transform: rotate(180deg); }
 
-    .accordion-content { max-height: 0; overflow-y: auto; opacity: 0; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; margin-top: 0; padding-right: 6px; }
+    /* Área interna com padding extra na direita para acomodar a barra de rolagem sem espremer */
+    .accordion-content { max-height: 0; overflow-y: auto; opacity: 0; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; margin-top: 0; padding-right: 12px; }
     .accordion-content.open { max-height: 100%; opacity: 1; margin-top: 12px; flex-grow: 1; }
 
-    /* Customizar a barra de rolagem interna para não quebrar o layout */
-    .accordion-content::-webkit-scrollbar { width: 5px; }
+    /* Estilização fina da barra para ocupar menos espaço */
+    .accordion-content::-webkit-scrollbar { width: 6px; }
     .accordion-content::-webkit-scrollbar-track { background: transparent; }
     .accordion-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* SUB-SEÇÕES DE PLANOS INTERNOS */
+    /* SUB-SEÇÕES DE PLANOS - CORREÇÃO CRÍTICA DE LARGURA */
     .section-box { background: #f8fafc; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid var(--border); width: 100%; }
     .section-title { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 0 0 10px 2px; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: space-between; }
     .section-title .badge { background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 20px; font-size: 8px; }
 
-    label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
+    label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     
     input[type="text"], input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; outline: none; background: #fff; color: var(--text-main); }
     input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
     
+    /* Layout dinâmico corrigido usando Flexbox com compensação de espaçamento */
+    .flex-inputs { display: flex; gap: 12px; width: 100%; }
+    .flex-inputs > div { flex: 1; min-width: 0; } /* impede que os blocos fiquem maiores que 50% */
+    
+    /* GRID PRINCIPAL DE INFORMAÇÕES GERAIS */
+    .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+
     /* SWITCHES PREMIUM */
     .switch-container { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
     .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #fff; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; }
@@ -94,7 +101,7 @@
       <div><h2>METRA CLOUD <span>v3.2</span></h2></div>
     </div>
 
-    <div class="grid" style="margin-bottom: 12px; flex-shrink: 0;">
+    <div class="main-grid" style="margin-bottom: 12px; flex-shrink: 0;">
       <div><label>👥 Usuários</label><input type="number" id="usuarios" value="1" min="1"></div>
       <div><label>🗓 Validade</label><input type="text" id="validade" value="30/06/2026"></div>
     </div>
@@ -118,7 +125,7 @@
     <div class="accordion-content" id="accordionValues">
       <div class="section-box">
         <div class="section-title"><span>💰 Implantação</span> <span class="badge">Único</span></div>
-        <div class="grid">
+        <div class="flex-inputs">
           <div><label>Valor Cheio</label><input id="implDe" value="990,00"></div>
           <div><label>Promocional</label><input id="implPara" value="480,00"></div>
         </div>
@@ -126,7 +133,7 @@
 
       <div class="section-box">
         <div class="section-title"><span>🔹 Plano Essencial</span></div>
-        <div class="grid">
+        <div class="flex-inputs">
           <div><label>Mensal Base</label><input id="essBase" value="250,00"></div>
           <div><label>Usuário Adic.</label><input id="essAdd" value="75,00"></div>
         </div>
@@ -134,7 +141,7 @@
 
       <div class="section-box">
         <div class="section-title"><span>⭐ Plano Profissional</span></div>
-        <div class="grid">
+        <div class="flex-inputs">
           <div><label>Mensal Base</label><input id="proBase" value="320,00"></div>
           <div><label>Usuário Adic.</label><input id="proAdd" value="100,00"></div>
         </div>
@@ -142,7 +149,7 @@
 
       <div class="section-box" id="boxPremium" style="opacity: 0.5;">
         <div class="section-title"><span>💎 Plano Premium</span></div>
-        <div class="grid">
+        <div class="flex-inputs">
           <div><label>Mensal Base</label><input id="preBase" value="520,00"></div>
           <div><label>Usuário Adic.</label><input id="preAdd" value="125,00"></div>
         </div>
@@ -225,7 +232,7 @@ function copiar(){
   navigator.clipboard.writeText(preview.textContent).then(() => {
     btn.textContent = "✅ COPIADO!";
     btn.style.background = "#10b981";
-    btn.style.boxShadow = "0 6px 12px rgba(16, 185, 129, 0.4)";
+    btn.style.boxShadow = "0 6px 12 rgba(16, 185, 129, 0.4)";
     setTimeout(() => {
       btn.textContent = "COPIAR PROPOSTA";
       btn.style.background = "";
