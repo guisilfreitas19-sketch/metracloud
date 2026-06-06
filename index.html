@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>METRA CLOUD v3.9</title>
+  <title>METRA CLOUD v3.3</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -42,7 +42,6 @@
     .accordion-btn.active { background: var(--primary-light); color: var(--primary); border-color: var(--border-focus); }
     .accordion-btn.active .arrow { transform: rotate(180deg); }
 
-    /* Área interna da gaveta com scroll seguro e integrado */
     .accordion-content { max-height: 0; overflow-y: auto; opacity: 0; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; margin-top: 0; padding: 0 8px 0 2px; }
     .accordion-content.open { max-height: 100%; opacity: 1; margin-top: 16px; flex-grow: 1; }
 
@@ -50,9 +49,11 @@
     .accordion-content::-webkit-scrollbar-track { background: transparent; }
     .accordion-content::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
-    /* TÍTULOS DE DIVISÃO LIMPOS (FIM DOS QUADRADOS) */
-    .section-divider { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 16px 0 8px 2px; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
-    .section-divider:first-of-type { margin-top: 4px; }
+    /* BLOCOS DE PLANO COM LINHAS DA GAVETA */
+    .section-block { padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px dashed var(--border); }
+    .section-block:last-of-type { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+
+    .section-divider { font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin: 4px 0 8px 2px; letter-spacing: 0.6px; display: flex; align-items: center; justify-content: space-between; width: 100%; }
     .section-divider .badge { background: var(--primary-light); color: var(--primary); padding: 1px 6px; border-radius: 20px; font-size: 8px; text-transform: uppercase; }
 
     label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
@@ -60,8 +61,7 @@
     input[type="text"], input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; outline: none; background: #fff; color: var(--text-main); }
     input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
     
-    /* Alinhamento lado a lado perfeito e matemático */
-    .form-row { display: flex; gap: 12px; width: 100%; margin-bottom: 4px; }
+    .form-row { display: flex; gap: 12px; width: 100%; }
     .form-group { flex: 1; min-width: 0; }
     
     /* SWITCHES */
@@ -91,20 +91,17 @@
 <body>
 
 <div class="container">
-  <!-- Painel de Controle -->
   <div class="card">
     <div class="logo-header">
       <div class="logo-sq">M</div>
-      <div><h2>METRA CLOUD <span>v3.2</span></h2></div>
+      <div><h2>METRA CLOUD <span>v3.3</span></h2></div>
     </div>
 
-    <!-- Info Geral -->
     <div class="form-row" style="margin-bottom: 12px; flex-shrink: 0;">
       <div class="form-group"><label>👥 Usuários</label><input type="number" id="usuarios" value="1" min="1"></div>
       <div class="form-group"><label>🗓 Validade</label><input type="text" id="validade" value="30/06/2026"></div>
     </div>
 
-    <!-- Toggles Rápidos -->
     <div class="switch-container">
       <div class="switch-row" onclick="document.getElementById('premium').click(); event.stopPropagation();">
         <label>💎 Exibir Plano Premium</label>
@@ -117,41 +114,41 @@
       </div>
     </div>
 
-    <!-- Botão de controle da gaveta de Preços -->
     <button class="accordion-btn" id="accordionToggle" onclick="toggleAccordion()">
       <span>⚙️ Editar Valores Base</span> <span class="arrow">▼</span>
     </button>
 
-    <!-- Gaveta Retrátil de Valores Sem Caixas Feias -->
     <div class="accordion-content" id="accordionValues">
       
-      <!-- Implantação -->
-      <div class="section-divider"><span>💰 Implantação</span> <span class="badge">Único</span></div>
-      <div class="form-row">
-        <div class="form-group"><label>Valor Cheio</label><input id="implDe" value="990,00"></div>
-        <div class="form-group"><label>Promocional</label><input id="implPara" value="480,00"></div>
+      <div class="section-block">
+        <div class="section-divider"><span>💰 Implantação</span> <span class="badge">Único</span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Valor Cheio</label><input type="text" id="implDe" value="990,00" class="money"></div>
+          <div class="form-group"><label>Promocional</label><input type="text" id="implPara" value="480,00" class="money"></div>
+        </div>
       </div>
 
-      <!-- Essencial -->
-      <div class="section-divider"><span>🔹 Plano Essencial</span></div>
-      <div class="form-row">
-        <div class="form-group"><label>Mensal Base</label><input id="essBase" value="250,00"></div>
-        <div class="form-group"><label>Usuário Adic.</label><input id="essAdd" value="75,00"></div>
+      <div class="section-block">
+        <div class="section-divider"><span>🔹 Plano Essencial</span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Mensal Base</label><input type="text" id="essBase" value="250,00" class="money"></div>
+          <div class="form-group"><label>Usuário Adic.</label><input type="text" id="essAdd" value="75,00" class="money"></div>
+        </div>
       </div>
 
-      <!-- Profissional -->
-      <div class="section-divider"><span>⭐ Plano Profissional</span></div>
-      <div class="form-row">
-        <div class="form-group"><label>Mensal Base</label><input id="proBase" value="320,00"></div>
-        <div class="form-group"><label>Usuário Adic.</label><input id="proAdd" value="100,00"></div>
+      <div class="section-block">
+        <div class="section-divider"><span>⭐ Plano Profissional</span></div>
+        <div class="form-row">
+          <div class="form-group"><label>Mensal Base</label><input type="text" id="proBase" value="320,00" class="money"></div>
+          <div class="form-group"><label>Usuário Adic.</label><input type="text" id="proAdd" value="100,00" class="money"></div>
+        </div>
       </div>
 
-      <!-- Premium -->
-      <div id="wrapperPremium" style="opacity: 0.5;">
+      <div class="section-block" id="wrapperPremium" style="opacity: 0.5;">
         <div class="section-divider"><span>💎 Plano Premium</span></div>
         <div class="form-row">
-          <div class="form-group"><label>Mensal Base</label><input id="preBase" value="520,00"></div>
-          <div class="form-group"><label>Usuário Adic.</label><input id="preAdd" value="125,00"></div>
+          <div class="form-group"><label>Mensal Base</label><input type="text" id="preBase" value="520,00" class="money"></div>
+          <div class="form-group"><label>Usuário Adic.</label><input type="text" id="preAdd" value="125,00" class="money"></div>
         </div>
       </div>
       
@@ -160,7 +157,6 @@
     <button class="btn-copy" id="btnCopiar" onclick="copiar()">COPIAR PROPOSTA</button>
   </div>
 
-  <!-- Pré-visualização -->
   <div class="preview-area">
     <div class="preview-header">📱 Pré-visualização no WhatsApp</div>
     <div class="wa-container">
@@ -170,19 +166,45 @@
 </div>
 
 <script>
-function f(v){return parseFloat(v.replace(/\./g,'').replace(',','.'))}
-function br(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+// Converte string formatada "1.250,00" para float puro
+function f(v){
+  if(!v) return 0;
+  return parseFloat(v.replace(/\./g,'').replace(',','.')) || 0;
+}
+
+// Converte float puro para Real Brasileiro formatado
+function br(v){
+  return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+
+// Máscara de dinheiro em tempo real
+function aplicarMascara(input) {
+  let v = input.value.replace(/\D/g, '');
+  if(v === '') v = '0';
+  v = (parseInt(v) / 100).toFixed(2) + '';
+  v = v.replace(".", ",");
+  v = v.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+  input.value = v;
+}
 
 function toggleAccordion() {
   const btn = document.getElementById('accordionToggle');
   const content = document.getElementById('accordionValues');
-  
   btn.classList.toggle('active');
   content.classList.toggle('open');
 }
 
+// Aplica escutas de eventos e a máscara nos inputs monetários
 document.querySelectorAll("input").forEach(x => {
-  x.addEventListener('input', atualizar);
+  if(x.classList.contains('money')) {
+    x.addEventListener('input', () => {
+      aplicarMascara(x);
+      atualizar();
+    });
+  } else {
+    x.addEventListener('input', atualizar);
+  }
+  
   if(x.type === "checkbox") {
     x.addEventListener('change', atualizar);
   }
@@ -243,6 +265,7 @@ function copiar(){
   });
 }
 
+// Força a primeira execução para alinhar tudo
 atualizar();
 </script>
 </body>
