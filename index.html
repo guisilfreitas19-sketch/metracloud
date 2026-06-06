@@ -1,109 +1,178 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>METRA CLOUD - Elite Sales v3.0</title>
-<style>
-body{font-family:Arial,sans-serif;background:#f4f6f9;margin:0;padding:20px}
-.wrap{display:grid;grid-template-columns:360px 1fr;gap:20px;max-width:1200px;margin:auto}
-.card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-input[type=text],input[type=number]{width:100%;padding:8px;margin:4px 0 10px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{width:100%;padding:14px;border:0;background:#1d4ed8;color:#fff;border-radius:8px;font-weight:bold;cursor:pointer}
-#preview{white-space:pre-wrap;line-height:1.6}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>METRA CLOUD - Elite Sales v3.0</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e40af;
+      --primary-light: #dbeafe;
+      --bg-main: #f1f5f9;
+      --bg-card: #ffffff;
+      --border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --wa-bg: #f8fafc;
+      --wa-bubble: #ffffff;
+    }
+
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: all 0.15s ease; }
+    body { background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 40px 20px; display: flex; justify-content: center; min-height: 100vh; }
+    .container { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 390px 1fr; gap: 32px; }
+    
+    /* CARTÃO DE CONFIGURAÇÃO (ESQUERDA) */
+    .card { background: var(--bg-card); border-radius: 20px; padding: 32px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); border: 1px solid var(--border); height: fit-content; position: sticky; top: 20px; }
+    .logo-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .logo-sq { background: var(--primary); width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 22px; box-shadow: 0 4px 6px rgba(29, 78, 216, 0.2); }
+    h2 { font-size: 20px; margin: 0; color: var(--text-main); font-weight: 700; }
+    h2 span { color: var(--primary); }
+    h3 { font-size: 11px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin: 20px 0 10px; letter-spacing: 0.5px; }
+    
+    label { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+    input[type="text"], input[type="number"] { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; outline: none; background: #fff; color: var(--text-main); margin-bottom: 4px; }
+    input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.1); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    
+    /* INTERRUPTORES (SWITCHES) */
+    .switch-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--wa-bg); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 10px; }
+    .switch-row label { margin: 0; text-transform: none; font-size: 13px; font-weight: 600; color: var(--text-main); letter-spacing: normal; }
+    .switch-row input[type="checkbox"] { position: relative; width: 40px; height: 22px; -webkit-appearance: none; background: #cbd5e1; outline: none; border-radius: 20px; cursor: pointer; }
+    .switch-row input[type="checkbox"]:checked { background: #10b981; }
+    .switch-row input[type="checkbox"]::before { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; top: 2px; left: 2px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: 0.2s; }
+    .switch-row input[type="checkbox"]:checked::before { left: 20px; }
+
+    /* BOTÃO COPIAR */
+    .btn-copy { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25); }
+    .btn-copy:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    /* CAIXA DE PRÉ-VISUALIZAÇÃO (DIREITA) */
+    .preview-area { background: var(--wa-bg); border-radius: 20px; padding: 40px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
+    .preview-header { font-size: 11px; color: var(--primary); font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1.5px; background: #fff; padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .wa-bubble { background: var(--wa-bubble); padding: 30px; border-radius: 0 16px 16px 16px; font-size: 15px; line-height: 1.6; color: #111b21; white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.04); position: relative; align-self: flex-start; max-width: 95%; }
+    .wa-bubble::before { content: ""; position: absolute; left: -12px; top: 0; border-style: solid; border-width: 0 12px 12px 0; border-color: transparent var(--wa-bubble) transparent transparent; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-<div class="card">
-<h2>METRA CLOUD<br><small>Elite Sales v3.0</small></h2>
 
-<label>Usuários</label>
-<input type="number" id="usuarios" value="1" min="1">
+<div class="container">
+  <!-- Painel de Controle -->
+  <div class="card">
+    <div class="logo-header">
+      <div class="logo-sq">M</div>
+      <div><h2>METRA <span>CLOUD</span></h2><small style="color:var(--text-muted); font-weight:500;">Elite Sales v3.0</small></div>
+    </div>
 
-<label>Validade</label>
-<input type="text" id="validade" value="30/06/2026">
+    <div class="grid">
+      <div><label>👥 Usuários</label><input type="number" id="usuarios" value="1" min="1"></div>
+      <div><label>🗓 Validade</label><input type="text" id="validade" value="30/06/2026"></div>
+    </div>
 
-<p><input type="checkbox" id="premium"> Exibir Plano Premium</p>
-<p><input type="checkbox" id="canal"> Exibir Canal de Denúncia</p>
+    <div class="switch-row">
+      <label>💎 Exibir Plano Premium</label>
+      <input type="checkbox" id="premium">
+    </div>
 
-<hr>
+    <div class="switch-row">
+      <label>➕ Exibir Canal de Denúncia</label>
+      <input type="checkbox" id="canal">
+    </div>
 
-<h3>Implantação</h3>
-<div class="grid">
-<input id="implDe" value="990,00">
-<input id="implPara" value="480,00">
-</div>
+    <h3>Implantação (De / Para)</h3>
+    <div class="grid">
+      <input id="implDe" value="990,00">
+      <input id="implPara" value="480,00">
+    </div>
 
-<h3>Essencial</h3>
-<div class="grid">
-<input id="essBase" value="250,00">
-<input id="essAdd" value="75,00">
-</div>
+    <h3>Essencial (Base / Adic.)</h3>
+    <div class="grid">
+      <input id="essBase" value="250,00">
+      <input id="essAdd" value="75,00">
+    </div>
 
-<h3>Profissional</h3>
-<div class="grid">
-<input id="proBase" value="320,00">
-<input id="proAdd" value="100,00">
-</div>
+    <h3>Profissional (Base / Adic.)</h3>
+    <div class="grid">
+      <input id="proBase" value="320,00">
+      <input id="proAdd" value="100,00">
+    </div>
 
-<h3>Premium</h3>
-<div class="grid">
-<input id="preBase" value="520,00">
-<input id="preAdd" value="125,00">
-</div>
+    <h3>Premium (Base / Adic.)</h3>
+    <div class="grid">
+      <input id="preBase" value="520,00">
+      <input id="preAdd" value="125,00">
+    </div>
 
-<button onclick="copiar()">COPIAR PROPOSTA</button>
-</div>
+    <button class="btn-copy" id="btnCopiar" onclick="copiar()">COPIAR PROPOSTA</button>
+  </div>
 
-<div class="card">
-<h3>Pré-visualização</h3>
-<div id="preview"></div>
-</div>
+  <!-- Pré-visualização -->
+  <div class="preview-area">
+    <div class="preview-header">Pré-visualização (WhatsApp)</div>
+    <div id="preview" class="wa-bubble"></div>
+  </div>
 </div>
 
 <script>
 function f(v){return parseFloat(v.replace(/\./g,'').replace(',','.'))}
 function br(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-document.querySelectorAll("input").forEach(x=>x.oninput=atualizar);
+
+document.querySelectorAll("input").forEach(x => x.oninput = atualizar);
 
 function atualizar(){
-let u=parseInt(usuarios.value)||1;
-let a=u-1;
-let e=f(essBase.value)+a*f(essAdd.value);
-let p=f(proBase.value)+a*f(proAdd.value);
-let pr=f(preBase.value)+a*f(preAdd.value);
+  let u = parseInt(usuarios.value) || 1;
+  let a = u - 1;
+  let e = f(essBase.value) + a * f(essAdd.value);
+  let p = f(proBase.value) + a * f(proAdd.value);
+  let pr = f(preBase.value) + a * f(preAdd.value);
 
-let t="";
-t+="📄 *Proposta – METRA CLOUD* ("+String(u).padStart(2,"0")+" usuário"+(u>1?"s":"")+")\n\n";
-t+="💰 *Licença de uso + capacitação*\n";
-t+="De R$ "+implDe.value+" ➝ *"+br(f(implPara.value))+"*\n";
-t+="ou *10x de "+br(f(implPara.value)/10)+"*\n\n";
-t+="💳 *Mensalidade*\n\n";
-t+="🔹 *Plano Essencial*\n";
-t+="Sem Financeiro, Faturamento, IA, Boleto e Nota Fiscal\n";
-t+="*"+br(e)+" / mês*\n\n";
-t+="⭐ *Plano Profissional*\n";
-t+="Com Financeiro, Faturamento e IA\n";
-t+="*"+br(p)+" / mês*\n\n";
-if(premium.checked){
-t+="💎 *Plano Premium*\n";
-t+="Com Financeiro, Faturamento, IA, Boleto e Nota Fiscal\n";
-t+="*"+br(pr)+" / mês*\n\n";
+  let t = "";
+  t += `📄 *Proposta – METRA CLOUD* (${String(u).padStart(2,"0")} usuário${u > 1 ? "s" : ""})\n\n`;
+  t += `💰 *Licença de uso + capacitação*\n`;
+  t += `De R$ ${implDe.value} ➝ *${br(f(implPara.value))}*\n`;
+  t += `ou *10x de ${br(f(implPara.value)/10)}*\n\n`;
+  t += `💳 *Mensalidade* (uso do sistema)\n\n`;
+  
+  t += `🔹 *Plano Essencial*\n`;
+  t += `Sem Financeiro, Faturamento, IA, Boleto e Nota Fiscal\n`;
+  t += `*${br(e)} / mês*\n\n`;
+  
+  t += `⭐ *Plano Profissional*\n`;
+  t += `Com Financeiro, Faturamento e IA\n`;
+  t += `*${br(p)} / mês*\n\n`;
+  
+  if(premium.checked){
+    t += `💎 *Plano Premium*\n`;
+    t += `Com Financeiro, Faturamento, IA, Boleto e Nota Fiscal\n`;
+    t += `*${br(pr)} / mês*\n\n`;
+  }
+  
+  if(canal.checked){
+    t += `➕ *Canal de Denúncia*\n`;
+    t += `*R$ 49,90 / mês por empresa*\n\n`;
+  }
+  
+  t += `🔓 Liberação em *1 dia útil*\n`;
+  t += `🗓 *Proposta válida até ${validade.value}*`;
+  
+  preview.textContent = t;
 }
-if(canal.checked){
-t+="➕ *Canal de Denúncia*\n";
-t+="*R$ 49,90 / mês por empresa*\n\n";
-}
-t+="🔓 Liberação em *1 dia útil*\n\n";
-t+="🗓 *Proposta válida até "+validade.value+"*";
-preview.textContent=t;
-}
+
 function copiar(){
-navigator.clipboard.writeText(preview.textContent);
-alert("Proposta copiada!");
+  const btn = document.getElementById('btnCopiar');
+  navigator.clipboard.writeText(preview.textContent).then(() => {
+    btn.textContent = "✅ COPIADO!";
+    btn.style.background = "#10b981";
+    btn.style.boxShadow = "0 4px 12px rgba(16, 185, 129, 0.3)";
+    setTimeout(() => {
+      btn.textContent = "COPIAR PROPOSTA";
+      btn.style.background = "";
+      btn.style.boxShadow = "";
+    }, 2000);
+  });
 }
+
 atualizar();
 </script>
 </body>
