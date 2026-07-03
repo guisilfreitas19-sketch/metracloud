@@ -103,16 +103,6 @@
     </div>
 
     <div class="switch-container">
-      <div class="switch-row" onclick="document.getElementById('premium').click(); event.stopPropagation();">
-        <label>💎 Exibir Plano Premium</label>
-        <input type="checkbox" id="premium" onclick="event.stopPropagation();">
-      </div>
-
-      <div class="switch-row" onclick="document.getElementById('canal').click(); event.stopPropagation();">
-        <label>➕ Exibir Canal de Denúncia</label>
-        <input type="checkbox" id="canal" onclick="event.stopPropagation();">
-      </div>
-    </div>
 
     <button class="accordion-btn" id="accordionToggle" onclick="toggleAccordion()">
       <span>⚙️ Editar Valores Base</span> <span class="arrow">▼</span>
@@ -143,13 +133,6 @@
           <div class="form-group"><label>Usuário Adic.</label><input type="text" id="proAdd" value="100,00" class="money"></div>
         </div>
       </div>
-
-      <div class="section-block" id="wrapperPremium" style="opacity: 0.5;">
-        <div class="section-divider"><span>💎 Plano Premium</span></div>
-        <div class="form-row">
-          <div class="form-group"><label>Mensal Base</label><input type="text" id="preBase" value="520,00" class="money"></div>
-          <div class="form-group"><label>Usuário Adic.</label><input type="text" id="preAdd" value="125,00" class="money"></div>
-        </div>
       </div>
       
     </div>
@@ -211,13 +194,11 @@ document.querySelectorAll("input").forEach(x => {
 });
 
 function atualizar(){
-  document.getElementById('wrapperPremium').style.opacity = premium.checked ? "1" : "0.5";
 
   let u = parseInt(usuarios.value) || 1;
   let a = u - 1;
   let e = f(essBase.value) + a * f(essAdd.value);
   let p = f(proBase.value) + a * f(proAdd.value);
-  let pr = f(preBase.value) + a * f(preAdd.value);
 
   let t = "";
   t += `📄 *Proposta – METRA CLOUD* (${String(u).padStart(2,"0")} usuário${u > 1 ? "s" : ""})\n\n`;
@@ -233,12 +214,18 @@ function atualizar(){
   t += `⭐ *Plano Profissional*\n`;
   t += `Com Financeiro, Faturamento e IA\n`;
   t += `*${br(p)} / mês*\n\n`;
-  
-  if(premium.checked){
-    t += `💎 *Plano Premium*\n`;
-    t += `Com Financeiro, Faturamento, IA, Boleto e Nota Fiscal\n`;
-    t += `*${br(pr)} / mês*\n\n`;
-  }
+  t += `➕ *Módulos adicionais (contratação posterior)*
+
+`;
+  t += `• Emissão de Boletos
+`;
+  t += `• Emissão de Nota Fiscal
+
+`;
+  t += `*Disponíveis após a implantação e capacitação. Consulte condições e valores.*
+
+`;
+
   
   if(canal.checked){
     t += `➕ *Canal de Denúncia*\n`;
