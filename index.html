@@ -104,6 +104,12 @@
 
     <div class="switch-container">
 
+      <div class="switch-row" onclick="document.getElementById('canal').click(); event.stopPropagation();">
+        <label>➕ Exibir Canal de Denúncia</label>
+        <input type="checkbox" id="canal" onclick="event.stopPropagation();">
+      </div>
+    </div>
+
     <button class="accordion-btn" id="accordionToggle" onclick="toggleAccordion()">
       <span>⚙️ Editar Valores Base</span> <span class="arrow">▼</span>
     </button>
@@ -214,18 +220,11 @@ function atualizar(){
   t += `⭐ *Plano Profissional*\n`;
   t += `Com Financeiro, Faturamento e IA\n`;
   t += `*${br(p)} / mês*\n\n`;
-  t += `➕ *Módulos adicionais (contratação posterior)*
-
-`;
-  t += `• Emissão de Boletos
-`;
-  t += `• Emissão de Nota Fiscal
-
-`;
-  t += `*Disponíveis após a implantação e capacitação. Consulte condições e valores.*
-
-`;
-
+  
+  t += `➕ *Módulos adicionais (contratação posterior)*\n\n`;
+  t += `• Emissão de Boletos\n`;
+  t += `• Emissão de Nota Fiscal\n\n`;
+  t += `*Disponíveis após a implantação e capacitação. Consulte condições e valores.*\n\n`;
   
   if(canal.checked){
     t += `➕ *Canal de Denúncia*\n`;
