@@ -86,6 +86,116 @@
     .wa-container { width: 100%; overflow-y: auto; display: flex; flex-direction: column; height: 100%; padding-right: 4px; }
     .wa-bubble { background: var(--wa-bubble); padding: 20px 24px; border-radius: 0px 16px 16px 16px; font-size: 14px; line-height: 1.5; color: #111b21; white-space: pre-wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.08); position: relative; align-self: flex-start; max-width: 90%; }
     .wa-bubble::before { content: ""; position: absolute; left: -11px; top: 0; border-style: solid; border-width: 0 12px 12px 0; border-color: transparent var(--wa-bubble) transparent transparent; }
+
+    /* VISUAL DA CAMPANHA */
+    .brand-copy { display: flex; flex-direction: column; gap: 2px; }
+    .brand-subtitle { color: var(--text-muted); font-size: 13px; font-weight: 500; }
+    .top-fields { margin-bottom: 18px; flex-shrink: 0; }
+
+    .campaign-card {
+      border: 2px solid var(--primary);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+      box-shadow: 0 8px 20px rgba(79,70,229,0.10);
+      flex-shrink: 0;
+    }
+
+    .campaign-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .campaign-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .campaign-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .campaign-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: .4px;
+    }
+
+    .campaign-subtitle {
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .campaign-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 20px;
+      padding: 5px 9px;
+      font-size: 8px;
+      font-weight: 800;
+      white-space: nowrap;
+      letter-spacing: .3px;
+    }
+
+    .campaign-input {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #d9d5ff;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      background: #fff;
+      color: var(--text-main);
+      box-shadow: 0 2px 5px rgba(15,23,42,.03);
+    }
+
+    .campaign-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(99,102,241,.10);
+    }
+
+    .campaign-info {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 9px;
+      background: rgba(224,231,255,.75);
+      color: var(--primary);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .campaign-info span:first-child {
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 850px) {
+      body { overflow: auto; align-items: flex-start; }
+      .container { grid-template-columns: 1fr; height: auto; }
+      .card, .preview-area { min-height: 600px; }
+      .campaign-head { align-items: center; }
+    }
   </style>
 </head>
 <body>
@@ -94,15 +204,45 @@
   <div class="card">
     <div class="logo-header">
       <div class="logo-sq">M</div>
-      <div><h2>METRA CLOUD <span>v3.3</span></h2></div>
+      <div class="brand-copy">
+        <h2>METRA CLOUD <span>v3.3</span></h2>
+        <div class="brand-subtitle">Crie propostas personalizadas em segundos</div>
+      </div>
     </div>
 
-    <div class="form-row" style="margin-bottom: 12px; flex-shrink: 0;">
-      <div class="form-group"><label>👥 Usuários</label><input type="number" id="usuarios" value="1" min="1"></div>
-      <div class="form-group"><label>🗓 Validade</label><input type="text" id="validade" value="18/09/2026"></div>
-      <div class="form-group" style="margin-bottom: 12px; flex-shrink: 0;">
-        <label>🎉 Condição da campanha</label>
-        <input type="text" id="condicaoCampanha" value="Condição especial em comemoração ao Dia do Cliente">
+    <div class="form-row top-fields">
+      <div class="form-group">
+        <label>👥 Usuários</label>
+        <input type="number" id="usuarios" value="1" min="1">
+      </div>
+      <div class="form-group">
+        <label>🗓 Validade</label>
+        <input type="text" id="validade" value="18/09/2026">
+      </div>
+    </div>
+
+    <div class="campaign-card">
+      <div class="campaign-head">
+        <div class="campaign-title-wrap">
+          <div class="campaign-icon">🎉</div>
+          <div>
+            <div class="campaign-title">CONDIÇÃO DA CAMPANHA</div>
+            <div class="campaign-subtitle">Digite o texto que aparecerá no final da proposta.</div>
+          </div>
+        </div>
+        <span class="campaign-badge">EM DESTAQUE</span>
+      </div>
+
+      <input
+        type="text"
+        id="condicaoCampanha"
+        value="Condição especial em comemoração ao Dia do Cliente"
+        class="campaign-input"
+      >
+
+      <div class="campaign-info">
+        <span>ⓘ</span>
+        <span>Essa informação aparecerá no final da proposta.</span>
       </div>
     </div>
 
