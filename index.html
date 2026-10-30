@@ -7,13 +7,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #4f46e5;       
-      --primary-dark: #4338ca;
-      --primary-light: #e0e7ff;
+      --primary: #d97706;       
+      --primary-dark: #92400e;
+      --primary-light: #fef3c7;
       --bg-main: #f8fafc;       
       --bg-card: #ffffff;
       --border: #e2e8f0;
-      --border-focus: #818cf8;
+      --border-focus: #f59e0b;
       --text-main: #0f172a;     
       --text-muted: #64748b;    
       --wa-bg: #eae6df;         
@@ -29,7 +29,7 @@
     .card { background: var(--bg-card); border-radius: 20px; padding: 24px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 10px 15px -3px rgb(0 0 0 / 0.05); border: 1px solid var(--border); display: flex; flex-direction: column; height: 100%; overflow: hidden; }
     
     .logo-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-    .logo-sq { background: linear-gradient(135deg, var(--primary), #6366f1); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; box-shadow: 0 6px 10px -3px rgba(79, 70, 229, 0.3); }
+    .logo-sq { background: linear-gradient(135deg, #111827, #d97706); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; box-shadow: 0 6px 10px -3px rgba(217, 119, 6, 0.25); }
     
     h2 { font-size: 18px; margin: 0; color: var(--text-main); font-weight: 800; letter-spacing: -0.5px; }
     h2 span { color: var(--text-muted); font-size: 14px; font-weight: 500; margin-left: 6px; }
@@ -59,7 +59,7 @@
     label { display: block; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
     
     input[type="text"], input[type="number"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; outline: none; background: #fff; color: var(--text-main); }
-    input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+    input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12); }
     
     .form-row { display: flex; gap: 12px; width: 100%; }
     .form-group { flex: 1; min-width: 0; }
@@ -75,7 +75,7 @@
     .switch-row input[type="checkbox"]:checked::before { left: 18px; }
 
     /* BOTÃO COPIAR PROPOSTA */
-    .btn-copy { width: 85%; align-self: center; padding: 10px 14px; background: linear-gradient(135deg, var(--primary), #6366f1); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 12px; box-shadow: 0 6px 12px -3px rgba(79, 70, 229, 0.3); flex-shrink: 0; }
+    .btn-copy { width: 85%; align-self: center; padding: 10px 14px; background: linear-gradient(135deg, #111827, #d97706); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 12px; box-shadow: 0 6px 12px -3px rgba(217, 119, 6, 0.25); flex-shrink: 0; }
     .btn-copy:hover { transform: translateY(-1px); }
 
     /* MOLDURA DE PRÉ-VISUALIZAÇÃO (DIREITA) */
@@ -93,12 +93,12 @@
     .top-fields { margin-bottom: 18px; flex-shrink: 0; }
 
     .campaign-card {
-      border: 2px solid var(--primary);
+      border: 2px solid #d97706;
       border-radius: 16px;
       padding: 16px;
       margin-bottom: 16px;
-      background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
-      box-shadow: 0 8px 20px rgba(79,70,229,0.10);
+      background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);
+      box-shadow: 0 8px 20px rgba(217,119,6,0.12);
       flex-shrink: 0;
     }
 
@@ -157,7 +157,7 @@
     .campaign-input {
       width: 100%;
       padding: 12px 13px;
-      border: 1px solid #d9d5ff;
+      border: 1px solid #fcd34d;
       border-radius: 11px;
       font-size: 13px;
       font-weight: 500;
@@ -179,7 +179,7 @@
       margin-top: 10px;
       padding: 9px 11px;
       border-radius: 9px;
-      background: rgba(224,231,255,.75);
+      background: rgba(254,243,199,.85);
       color: var(--primary);
       font-size: 10px;
       font-weight: 600;
@@ -217,32 +217,32 @@
       </div>
       <div class="form-group">
         <label>🗓 Validade</label>
-        <input type="text" id="validade" value="18/09/2026">
+        <input type="text" id="validade" value="13/11/2026">
       </div>
     </div>
 
     <div class="campaign-card">
       <div class="campaign-head">
         <div class="campaign-title-wrap">
-          <div class="campaign-icon">🎉</div>
+          <div class="campaign-icon">🖤</div>
           <div>
-            <div class="campaign-title">CONDIÇÃO DA CAMPANHA</div>
-            <div class="campaign-subtitle">Digite o texto que aparecerá no final da proposta.</div>
+            <div class="campaign-title">BLACK FRIDAY METRA CLOUD</div>
+            <div class="campaign-subtitle">Condição especial: 20% de desconto nas mensalidades.</div>
           </div>
         </div>
-        <span class="campaign-badge">EM DESTAQUE</span>
+        <span class="campaign-badge">20% OFF</span>
       </div>
 
       <input
         type="text"
         id="condicaoCampanha"
-        value="Condição especial em comemoração ao Dia do Cliente"
+        value="🖤 BLACK FRIDAY METRA CLOUD! Aproveite 20% de desconto na mensalidade. Oferta válida até 13/11/2026."
         class="campaign-input"
       >
 
       <div class="campaign-info">
         <span>ⓘ</span>
-        <span>Essa informação aparecerá no final da proposta.</span>
+        <span>A condição promocional aparecerá no final da proposta.</span>
       </div>
     </div>
 
@@ -343,8 +343,10 @@ document.querySelectorAll("input").forEach(x => {
 function atualizar(){
   let u = parseInt(usuarios.value) || 1;
   let a = u - 1;
-  let e = f(essBase.value) + a * f(essAdd.value);
-  let p = f(proBase.value) + a * f(proAdd.value);
+  let eCheio = f(essBase.value) + a * f(essAdd.value);
+  let pCheio = f(proBase.value) + a * f(proAdd.value);
+  let e = eCheio * 0.80;
+  let p = pCheio * 0.80;
 
   let t = "";
   t += `📄 *Proposta – METRA CLOUD* (${String(u).padStart(2,"0")} usuário${u > 1 ? "s" : ""})\n\n`;
@@ -373,7 +375,9 @@ function atualizar(){
   }
   
   t += `🔓 Liberação em *1 dia útil*\n`;
-   t += `🎉 *${condicaoCampanha.value} — válida até ${validade.value}*`;
+   t += `🖤 *BLACK FRIDAY METRA CLOUD*\\n`;
+  t += `🔥 Aproveite *20% de desconto na mensalidade*!\\n`;
+  t += `⏳ ${condicaoCampanha.value} — válida até *${validade.value}*`;
   
   preview.textContent = t;
 }
